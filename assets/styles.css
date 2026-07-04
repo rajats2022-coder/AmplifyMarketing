@@ -3739,6 +3739,87 @@ p {
     padding-inline: 1rem;
   }
 
+  .cinematic-hero.is-scroll-bound {
+    min-height: 260dvh;
+    padding: 0;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-scroll-stage {
+    left: 0;
+    right: 0;
+    padding: 5.6rem 0.8rem 0.75rem;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-stage-card.reveal {
+    width: 100%;
+    height: min(710px, calc(100dvh - 6.4rem));
+    border-radius: 28px;
+    padding: 0.8rem;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-welcome-text {
+    place-content: center;
+    padding: 0 0.8rem;
+    font-size: clamp(3.2rem, 18vw, 5.8rem);
+  }
+
+  .cinematic-hero.is-scroll-bound .lead-signal-field {
+    display: block;
+  }
+
+  .cinematic-hero.is-scroll-bound .lead-packet {
+    min-width: 136px;
+    padding: 0.56rem 0.68rem;
+  }
+
+  .cinematic-hero.is-scroll-bound .lead-phone {
+    display: grid;
+    right: 50%;
+    top: 56%;
+    width: min(236px, 70vw);
+    transform: translate3d(50%, var(--hero-phone-y), 0) translateY(-50%) rotateY(var(--hero-phone-rotate)) scale(var(--hero-phone-scale));
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-copy {
+    top: 0.85rem;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-copy h1 {
+    font-size: clamp(2rem, 10vw, 2.72rem);
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-copy .lead,
+  .cinematic-hero.is-scroll-bound .hero-actions {
+    display: none;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-command-panel {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: auto;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-flow {
+    gap: 0.42rem;
+    padding: 0.54rem 0.62rem;
+    font-size: 0.72rem;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-scorecard {
+    padding: 0.72rem;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-score-row {
+    grid-template-columns: 68px 1fr;
+    min-height: 54px;
+    padding: 0.58rem 0.62rem;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-score-row strong {
+    font-size: 1rem;
+  }
+
   .proof-strip {
     grid-template-columns: 1fr;
     border-radius: 18px;

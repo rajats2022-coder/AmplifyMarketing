@@ -138,7 +138,6 @@ function initScrollHero() {
   if (!hero) return;
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const desktopQuery = window.matchMedia('(min-width: 701px)');
   let ticking = false;
 
   function setLandingState() {
@@ -164,7 +163,7 @@ function initScrollHero() {
   function update() {
     ticking = false;
 
-    if (motionQuery.matches || !desktopQuery.matches) {
+    if (motionQuery.matches) {
       setLandingState();
       return;
     }
@@ -208,10 +207,8 @@ function initScrollHero() {
 
   window.addEventListener('scroll', requestUpdate, { passive: true });
   window.addEventListener('resize', requestUpdate);
-  [motionQuery, desktopQuery].forEach((query) => {
-    if (query.addEventListener) query.addEventListener('change', requestUpdate);
-    else query.addListener(requestUpdate);
-  });
+  if (motionQuery.addEventListener) motionQuery.addEventListener('change', requestUpdate);
+  else motionQuery.addListener(requestUpdate);
   update();
 }
 
