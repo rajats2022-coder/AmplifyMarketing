@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist && cp -R assets *.html *.txt *.xml robots.txt dist/"
+  }
+}
