@@ -3404,17 +3404,6 @@ p {
     padding-top: 7.6rem;
   }
 
-  .cinematic-hero,
-  .cinematic-hero.is-scroll-bound {
-    min-height: auto;
-    padding: 0 1.25rem;
-  }
-
-  .cinematic-hero.is-scroll-bound .hero-scroll-stage {
-    position: relative;
-    overflow: visible;
-  }
-
   .hero-stage-card {
     grid-template-columns: 1fr;
     width: min(720px, 100%);
@@ -3434,6 +3423,56 @@ p {
 
   .hero-stage-card .system-scene {
     min-height: 500px;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-stage-card.reveal {
+    grid-template-columns: 1fr;
+    width: min(760px, 100%);
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-copy {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 1rem;
+    z-index: 8;
+    max-width: 600px;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-copy h1 {
+    font-size: clamp(2.5rem, 7vw, 4.4rem);
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-badges {
+    display: none;
+  }
+
+  .cinematic-hero.is-scroll-bound .system-scene {
+    min-height: 100%;
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-orbit-system {
+    top: 56%;
+    left: 50%;
+    width: min(560px, 86vw);
+  }
+
+  .cinematic-hero.is-scroll-bound .lead-phone {
+    right: 50%;
+    top: 56%;
+    transform: translate3d(50%, var(--hero-phone-y), 0) translateY(-50%) rotateY(var(--hero-phone-rotate)) scale(var(--hero-phone-scale));
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-command-panel {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 8;
+    width: min(330px, calc(100% - 2rem));
+  }
+
+  .cinematic-hero.is-scroll-bound .hero-widget-stack {
+    display: none;
   }
 
   .hero-command-panel {

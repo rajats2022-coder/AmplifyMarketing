@@ -138,7 +138,7 @@ function initScrollHero() {
   if (!hero) return;
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const desktopQuery = window.matchMedia('(min-width: 981px)');
+  const desktopQuery = window.matchMedia('(min-width: 701px)');
   let ticking = false;
 
   function setLandingState() {
