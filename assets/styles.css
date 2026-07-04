@@ -272,10 +272,11 @@ p {
 
 .hero {
   position: relative;
-  min-height: 98dvh;
-  padding: 8.3rem 1.25rem 5.8rem;
+  min-height: 100dvh;
+  padding: 7.2rem 1.25rem 4.2rem;
   color: var(--paper-2);
   isolation: isolate;
+  overflow: hidden;
 }
 
 .hero::before {
@@ -299,6 +300,206 @@ p {
     linear-gradient(180deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 88px 88px;
   opacity: 0.55;
+}
+
+.cinematic-hero {
+  display: grid;
+  place-items: center;
+}
+
+.hero-backdrop-art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.18;
+  filter: saturate(0.9) contrast(1.05);
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(ellipse at center, black 0%, black 38%, transparent 76%);
+  animation: sceneBreath 12s var(--ease) infinite;
+}
+
+.hero-welcome-text {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.12em;
+  color: rgba(255, 253, 248, 0.1);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: clamp(4.3rem, 10vw, 10.5rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: 0;
+  text-align: center;
+  text-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+  transform: translateY(-2vh);
+  pointer-events: none;
+}
+
+.hero-welcome-text span {
+  display: block;
+  animation: heroTitleReveal 1.4s var(--ease) both;
+}
+
+.hero-welcome-text span:nth-child(2) {
+  color: rgba(243, 199, 91, 0.13);
+  animation-delay: 0.16s;
+}
+
+.hero-stage-card {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(370px, 1.04fr) minmax(330px, 0.92fr) minmax(280px, 0.78fr);
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  width: min(1260px, 100%);
+  min-height: min(690px, calc(100dvh - 10rem));
+  margin: 0 auto;
+  padding: clamp(1rem, 2vw, 1.45rem);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 38px;
+  background:
+    radial-gradient(circle at 54% 44%, rgba(243, 199, 91, 0.22), transparent 18rem),
+    radial-gradient(circle at 74% 18%, rgba(116, 187, 211, 0.12), transparent 22rem),
+    linear-gradient(145deg, rgba(22, 44, 78, 0.86), rgba(7, 18, 34, 0.92) 54%, rgba(7, 20, 38, 0.98));
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.16),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.36),
+    0 42px 110px rgba(0, 0, 0, 0.34);
+  overflow: hidden;
+}
+
+.hero-stage-card::before {
+  content: "Track revenue, not just clicks.";
+  position: absolute;
+  left: clamp(1rem, 4vw, 4rem);
+  right: clamp(1rem, 4vw, 4rem);
+  top: 7%;
+  z-index: 0;
+  color: rgba(255, 253, 248, 0.055);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+.card-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.08) 32%, transparent 48%),
+    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.1), transparent 26rem);
+  opacity: 0.72;
+  pointer-events: none;
+  animation: cardSheenSweep 8s var(--ease) infinite;
+}
+
+.hero-stage-card > *:not(.card-sheen) {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stage-card .hero-copy {
+  align-self: center;
+}
+
+.hero-stage-card .hero-copy h1 {
+  font-size: clamp(3.25rem, 4.7vw, 5.45rem);
+}
+
+.hero-stage-card .system-scene {
+  min-height: min(520px, 60vh);
+}
+
+.hero-stage-card .premium-scene {
+  overflow: visible;
+}
+
+.hero-stage-card .hero-motion-field {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hero-stage-card .hero-motion-field::before {
+  opacity: 0.24;
+}
+
+.hero-stage-card .hero-motion-field::after {
+  background: radial-gradient(circle at 50% 50%, transparent 0 12rem, rgba(7, 20, 38, 0.08) 22rem, rgba(7, 20, 38, 0.26) 100%);
+}
+
+.hero-stage-card .hero-orbit-system {
+  top: 49%;
+  left: 50%;
+  width: min(570px, 104%);
+}
+
+.hero-stage-card .amp-hero-mark {
+  width: clamp(214px, 21vw, 300px);
+}
+
+.hero-command-panel {
+  display: grid;
+  gap: 0.85rem;
+  align-self: center;
+}
+
+.hero-stage-card .hero-flow,
+.hero-stage-card .hero-scorecard {
+  position: relative;
+  inset: auto;
+  width: auto;
+}
+
+.hero-stage-card .hero-flow {
+  justify-content: center;
+}
+
+.hero-stage-card .hero-scorecard {
+  padding: 0.95rem;
+}
+
+.hero-widget-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hero-widget {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.hero-widget span,
+.hero-widget small {
+  color: rgba(255, 253, 248, 0.62);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.hero-widget strong {
+  color: var(--paper-2);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.3rem;
+  line-height: 1;
 }
 
 .hero-grid {
@@ -2635,6 +2836,28 @@ p {
   }
 }
 
+@keyframes heroTitleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cardSheenSweep {
+  0%, 100% {
+    transform: translateX(-18%);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(18%);
+    opacity: 0.82;
+  }
+}
+
 @keyframes orbitSpin {
   to {
     transform: rotate(360deg);
@@ -2842,6 +3065,31 @@ p {
     padding-top: 7.6rem;
   }
 
+  .hero-stage-card {
+    grid-template-columns: 1fr;
+    width: min(720px, 100%);
+    min-height: auto;
+    gap: 1rem;
+  }
+
+  .hero-welcome-text {
+    align-content: start;
+    padding-top: 8rem;
+    font-size: clamp(3.8rem, 13vw, 7.5rem);
+  }
+
+  .hero-stage-card .hero-copy h1 {
+    font-size: clamp(3rem, 8vw, 5rem);
+  }
+
+  .hero-stage-card .system-scene {
+    min-height: 500px;
+  }
+
+  .hero-command-panel {
+    grid-template-columns: 1fr;
+  }
+
   .hero::before {
     background:
       radial-gradient(circle at 66% 58%, rgba(243, 199, 91, 0.22), transparent 22rem),
@@ -2913,6 +3161,32 @@ p {
 
   .hero {
     padding: 6.8rem 1rem 3.8rem;
+  }
+
+  .hero-stage-card {
+    border-radius: 26px;
+    padding: 1rem;
+  }
+
+  .hero-stage-card::before {
+    display: none;
+  }
+
+  .hero-welcome-text {
+    font-size: clamp(3.1rem, 17vw, 5.8rem);
+    opacity: 0.84;
+  }
+
+  .hero-stage-card .hero-copy h1 {
+    font-size: 2.55rem;
+  }
+
+  .hero-stage-card .system-scene {
+    min-height: 430px;
+  }
+
+  .hero-widget-stack {
+    display: none;
   }
 
   .page-hero {
