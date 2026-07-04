@@ -1,0 +1,76 @@
+# Amplify Outreach Full Site Summary
+
+## Business
+
+Amplify Outreach is a home-service Meta ads agency. It serves owners who want a repeatable lead generation system and who care about revenue outcomes more than vanity metrics.
+
+## Offer
+
+The base package is $750 per month, month to month. This is the management fee for Meta campaign strategy, setup, testing, tracking, optimization, and reporting. Ad spend is separate and should stay in the client's ad account.
+
+## Ideal Customers
+
+Amplify Outreach is built for landscaping and hardscaping companies, exterior cleaning companies, and junk removal companies. The site also leaves room for other home service businesses if the fit is strong.
+
+## Main Message
+
+Home service Meta ads should be judged by qualified leads, booked estimates, closed jobs, and revenue. Clicks, impressions, and cost per click can explain campaign behavior, but they are not the business outcome.
+
+## Free Lead-Flow Audit
+
+The primary conversion action is a free lead-flow audit. The audit collects business basics, website or social profile, industry, service area, best service to sell, average job value, lead goal, current ad spend, lead source, follow-up speed, and the biggest lead-quality problem.
+
+The audit deliverable should identify the first campaign angle, lead-quality filters, break-even math, scorecard notes, and tracking gaps.
+
+## Campaign System
+
+1. Map the service that can create revenue.
+2. Build campaign angles around service area, season, urgency, and margin.
+3. Launch focused Facebook and Instagram campaigns.
+4. Track lead quality and booked opportunities.
+5. Scale the campaigns that show revenue potential and cut the ones that do not.
+
+## SEO Pages
+
+The site includes hub pages plus deeper pages for services, industries, pricing, and results.
+
+Core service pages:
+
+- Meta ads for home service companies: /meta-ads-home-services.html
+- Free lead-flow audit: /lead-flow-audit.html
+- Facebook lead forms for home services: /facebook-lead-forms-home-services.html
+- Meta ad creative testing for home services: /meta-ad-creative-testing-home-services.html
+- Meta retargeting for home service leads: /meta-retargeting-home-services.html
+
+Industry pages:
+
+- Landscaping and hardscaping Meta ads: /landscaping-hardscaping-marketing.html
+- Lawn care Meta ads: /lawn-care-marketing.html
+- Hardscaping Meta ads: /hardscaping-marketing.html
+- Exterior cleaning Meta ads: /exterior-cleaning-marketing.html
+- Pressure washing Meta ads: /pressure-washing-marketing.html
+- Roof washing and soft washing Meta ads: /roof-washing-soft-washing-marketing.html
+- Commercial exterior cleaning Meta ads: /commercial-exterior-cleaning-marketing.html
+- Junk removal Meta ads: /junk-removal-marketing.html
+- Estate cleanout Meta ads: /estate-cleanout-junk-removal-marketing.html
+
+Pricing and proof pages:
+
+- $750/month pricing: /pricing.html
+- Meta ads cost for home service companies: /meta-ads-cost-home-services.html
+- Home service ad budget calculator: /home-service-ad-budget-calculator.html
+- Results and scorecards: /results.html
+- Sample Meta ads scorecard: /sample-meta-ads-scorecard.html
+- Lead quality scorecard: /lead-quality-scorecard-home-services.html
+- First 60 days of Meta ads: /first-60-days-meta-ads.html
+
+Each page has distinct copy, internal links, and schema support.
+
+## Missing Launch Details
+
+- Final domain
+- Phone number
+- Business email
+- Legal address if needed for schema
+- Booking calendar or form backend
+- Verified testimonials or results

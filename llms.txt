@@ -1,0 +1,68 @@
+# Amplify Outreach
+
+Amplify Outreach is a Meta ads agency for home service business owners.
+
+## Core Offer
+
+- $750 per month Meta ads management
+- Month-to-month service
+- All-encompassing management fee
+- As many campaigns as the business can responsibly run
+- Ad spend is separate from the management fee
+
+## Positioning
+
+Amplify Outreach builds Facebook and Instagram advertising services that bring quality leads and real revenue. Success is not measured by clicks alone. The main scorecard is qualified leads, booked estimates, closed work, and revenue from campaign opportunities.
+
+## Primary CTA
+
+The primary conversion action is a free lead-flow audit. The audit should identify the first campaign angle, lead-quality filters, break-even math, scorecard notes, and campaign tracking gaps.
+
+## Industries
+
+- Landscaping and hardscaping
+- Lawn care
+- Hardscaping
+- Exterior cleaning
+- Pressure washing
+- Roof washing and soft washing
+- Commercial exterior cleaning
+- Junk removal
+- Estate cleanouts
+
+## Key Pages
+
+- Home: /
+- Services: /services.html
+- Free lead-flow audit: /lead-flow-audit.html
+- Meta Ads for Home Services: /meta-ads-home-services.html
+- Facebook lead forms for home services: /facebook-lead-forms-home-services.html
+- Meta ad creative testing: /meta-ad-creative-testing-home-services.html
+- Meta retargeting for home services: /meta-retargeting-home-services.html
+- Industries: /industries.html
+- Landscaping and hardscaping advertising: /landscaping-hardscaping-marketing.html
+- Lawn care advertising: /lawn-care-marketing.html
+- Hardscaping advertising: /hardscaping-marketing.html
+- Exterior cleaning advertising: /exterior-cleaning-marketing.html
+- Pressure washing advertising: /pressure-washing-marketing.html
+- Roof washing and soft washing advertising: /roof-washing-soft-washing-marketing.html
+- Commercial exterior cleaning advertising: /commercial-exterior-cleaning-marketing.html
+- Junk removal advertising: /junk-removal-marketing.html
+- Estate cleanout advertising: /estate-cleanout-junk-removal-marketing.html
+- Pricing: /pricing.html
+- Meta ads cost for home services: /meta-ads-cost-home-services.html
+- Home service ad budget calculator: /home-service-ad-budget-calculator.html
+- Results: /results.html
+- Sample Meta ads scorecard: /sample-meta-ads-scorecard.html
+- Lead quality scorecard: /lead-quality-scorecard-home-services.html
+- First 60 days of Meta ads: /first-60-days-meta-ads.html
+- FAQ: /faq.html
+- Contact: /contact.html
+
+## FAQ Summary
+
+The $750/month fee covers Meta campaign strategy, setup, testing, tracking, optimization, and reporting. Ad spend is separate and should stay in the owner's ad account. The service is month to month. Campaign count depends on service lines, budget, seasonality, capacity, and the quality of the tracking path.
+
+## Launch Notes
+
+Final phone number, email address, domain, legal address, and form backend still need to be connected before publishing.
