@@ -125,6 +125,98 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
 
+function clamp(value, min = 0, max = 1) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function setHeroVar(hero, name, value) {
+  hero.style.setProperty(name, value);
+}
+
+function initScrollHero() {
+  const hero = document.querySelector('[data-scroll-hero]');
+  if (!hero) return;
+
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const desktopQuery = window.matchMedia('(min-width: 981px)');
+  let ticking = false;
+
+  function setLandingState() {
+    hero.classList.remove('is-scroll-bound', 'is-hero-before', 'is-hero-after');
+    setHeroVar(hero, '--hero-card-opacity', '1');
+    setHeroVar(hero, '--hero-card-y', '0px');
+    setHeroVar(hero, '--hero-card-scale', '1');
+    setHeroVar(hero, '--hero-copy-opacity', '1');
+    setHeroVar(hero, '--hero-copy-y', '0px');
+    setHeroVar(hero, '--hero-command-opacity', '1');
+    setHeroVar(hero, '--hero-command-y', '0px');
+    setHeroVar(hero, '--hero-intro-opacity', '0.08');
+    setHeroVar(hero, '--hero-intro-y', '0px');
+    setHeroVar(hero, '--hero-intro-scale', '1');
+    setHeroVar(hero, '--hero-lead-opacity', '0');
+    setHeroVar(hero, '--hero-phone-opacity', '0');
+    setHeroVar(hero, '--hero-phone-y', '32px');
+    setHeroVar(hero, '--hero-phone-scale', '0.92');
+    setHeroVar(hero, '--hero-phone-rotate', '-10deg');
+    setHeroVar(hero, '--hero-cue-opacity', '0');
+  }
+
+  function update() {
+    ticking = false;
+
+    if (motionQuery.matches || !desktopQuery.matches) {
+      setLandingState();
+      return;
+    }
+
+    hero.classList.add('is-scroll-bound');
+
+    const rect = hero.getBoundingClientRect();
+    hero.classList.toggle('is-hero-before', rect.top > 0);
+    hero.classList.toggle('is-hero-after', rect.bottom <= window.innerHeight);
+    const scrollRange = Math.max(hero.offsetHeight - window.innerHeight, 1);
+    const progress = clamp(-rect.top / scrollRange);
+    const intro = clamp(1 - progress / 0.3);
+    const system = clamp((progress - 0.08) / 0.36);
+    const leadPeak = clamp(1 - Math.abs(progress - 0.42) / 0.34);
+    const landing = clamp((progress - 0.58) / 0.34);
+    const phonePeak = leadPeak * (1 - landing);
+
+    setHeroVar(hero, '--hero-card-opacity', (0.28 + system * 0.72).toFixed(3));
+    setHeroVar(hero, '--hero-card-y', `${Math.round((1 - system) * 76)}px`);
+    setHeroVar(hero, '--hero-card-scale', (0.88 + system * 0.12).toFixed(3));
+    setHeroVar(hero, '--hero-copy-opacity', landing.toFixed(3));
+    setHeroVar(hero, '--hero-copy-y', `${Math.round((1 - landing) * 28)}px`);
+    setHeroVar(hero, '--hero-command-opacity', landing.toFixed(3));
+    setHeroVar(hero, '--hero-command-y', `${Math.round((1 - landing) * 34)}px`);
+    setHeroVar(hero, '--hero-intro-opacity', Math.max(0.06, intro).toFixed(3));
+    setHeroVar(hero, '--hero-intro-y', `${Math.round(progress * -54)}px`);
+    setHeroVar(hero, '--hero-intro-scale', (1 + progress * 0.04).toFixed(3));
+    setHeroVar(hero, '--hero-lead-opacity', leadPeak.toFixed(3));
+    setHeroVar(hero, '--hero-phone-opacity', phonePeak.toFixed(3));
+    setHeroVar(hero, '--hero-phone-y', `${Math.round((1 - phonePeak) * 68 - landing * 18)}px`);
+    setHeroVar(hero, '--hero-phone-scale', (0.9 + phonePeak * 0.1).toFixed(3));
+    setHeroVar(hero, '--hero-phone-rotate', `${Math.round(-12 + phonePeak * 12)}deg`);
+    setHeroVar(hero, '--hero-cue-opacity', clamp(1 - progress / 0.18).toFixed(3));
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  [motionQuery, desktopQuery].forEach((query) => {
+    if (query.addEventListener) query.addEventListener('change', requestUpdate);
+    else query.addListener(requestUpdate);
+  });
+  update();
+}
+
+initScrollHero();
+
 function createChatbot() {
   if (document.querySelector('[data-amplify-chatbot]')) return;
 
