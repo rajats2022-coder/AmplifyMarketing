@@ -33,31 +33,31 @@ The primary conversion action is a free lead-flow audit. The audit should identi
 ## Key Pages
 
 - Home: /
-- Services: /services.html
-- Free lead-flow audit: /lead-flow-audit.html
-- Meta Ads for Home Services: /meta-ads-home-services.html
-- Facebook lead forms for home services: /facebook-lead-forms-home-services.html
-- Meta ad creative testing: /meta-ad-creative-testing-home-services.html
-- Meta retargeting for home services: /meta-retargeting-home-services.html
-- Industries: /industries.html
-- Landscaping and hardscaping advertising: /landscaping-hardscaping-marketing.html
-- Lawn care advertising: /lawn-care-marketing.html
-- Hardscaping advertising: /hardscaping-marketing.html
-- Exterior cleaning advertising: /exterior-cleaning-marketing.html
-- Pressure washing advertising: /pressure-washing-marketing.html
-- Roof washing and soft washing advertising: /roof-washing-soft-washing-marketing.html
-- Commercial exterior cleaning advertising: /commercial-exterior-cleaning-marketing.html
-- Junk removal advertising: /junk-removal-marketing.html
-- Estate cleanout advertising: /estate-cleanout-junk-removal-marketing.html
-- Pricing: /pricing.html
-- Meta ads cost for home services: /meta-ads-cost-home-services.html
-- Home service ad budget calculator: /home-service-ad-budget-calculator.html
-- Results: /results.html
-- Sample Meta ads scorecard: /sample-meta-ads-scorecard.html
-- Lead quality scorecard: /lead-quality-scorecard-home-services.html
-- First 60 days of Meta ads: /first-60-days-meta-ads.html
-- FAQ: /faq.html
-- Contact: /contact.html
+- Services: /services
+- Free lead-flow audit: /lead-flow-audit
+- Meta Ads for Home Services: /meta-ads-home-services
+- Facebook lead forms for home services: /facebook-lead-forms-home-services
+- Meta ad creative testing: /meta-ad-creative-testing-home-services
+- Meta retargeting for home services: /meta-retargeting-home-services
+- Industries: /industries
+- Landscaping and hardscaping advertising: /landscaping-hardscaping-marketing
+- Lawn care advertising: /lawn-care-marketing
+- Hardscaping advertising: /hardscaping-marketing
+- Exterior cleaning advertising: /exterior-cleaning-marketing
+- Pressure washing advertising: /pressure-washing-marketing
+- Roof washing and soft washing advertising: /roof-washing-soft-washing-marketing
+- Commercial exterior cleaning advertising: /commercial-exterior-cleaning-marketing
+- Junk removal advertising: /junk-removal-marketing
+- Estate cleanout advertising: /estate-cleanout-junk-removal-marketing
+- Pricing: /pricing
+- Meta ads cost for home services: /meta-ads-cost-home-services
+- Home service ad budget calculator: /home-service-ad-budget-calculator
+- Results: /results
+- Sample Meta ads scorecard: /sample-meta-ads-scorecard
+- Lead quality scorecard: /lead-quality-scorecard-home-services
+- First 60 days of Meta ads: /first-60-days-meta-ads
+- FAQ: /faq
+- Contact: /contact
 
 ## FAQ Summary
 

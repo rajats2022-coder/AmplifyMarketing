@@ -28,6 +28,8 @@ createServer(async (req, res) => {
   try {
     let url = decodeURIComponent(req.url.split('?')[0]);
     if (url === '/' || url === '') url = '/index.html';
+    // cleanUrls parity with Vercel: /services -> services.html
+    if (!extname(url)) url += '.html';
 
     const normalized = normalize(url).replace(/^(\.\.[/\\])+/, '');
     const filePath = join(__dirname, normalized);

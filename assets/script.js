@@ -1,6 +1,14 @@
 const navToggle = document.querySelector('[data-nav-toggle]');
 const navLinks = document.querySelector('[data-nav-links]');
 
+if (navLinks) {
+  const currentSlug = (window.location.pathname.split('/').pop() || 'index').replace(/\.html$/, '');
+  navLinks.querySelectorAll('a').forEach((link) => {
+    const linkSlug = (link.getAttribute('href') || '').split('/').pop().split('#')[0].replace(/\.html$/, '') || 'index';
+    if (linkSlug === currentSlug) link.setAttribute('aria-current', 'page');
+  });
+}
+
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
@@ -114,102 +122,164 @@ document.querySelectorAll('[data-lead-calculator]').forEach((form) => {
   calculate();
 });
 
+const pendingReveals = new Set(document.querySelectorAll('.reveal'));
+
+function markRevealed(node) {
+  node.classList.add('is-visible');
+  pendingReveals.delete(node);
+  revealObserver.unobserve(node);
+}
+
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
-    }
+    if (entry.isIntersecting) markRevealed(entry.target);
   });
 }, { threshold: 0.16 });
 
-document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
+pendingReveals.forEach((node) => revealObserver.observe(node));
+
+// Catch-up for anchor jumps and fast scrolls: instant jumps can teleport an
+// element across the viewport between frames, so the observer never fires.
+let revealSweepQueued = false;
+window.addEventListener('scroll', () => {
+  if (revealSweepQueued || !pendingReveals.size) return;
+  revealSweepQueued = true;
+  window.requestAnimationFrame(() => {
+    revealSweepQueued = false;
+    pendingReveals.forEach((node) => {
+      if (node.getBoundingClientRect().top < window.innerHeight * 0.92) markRevealed(node);
+    });
+  });
+}, { passive: true });
 
 function clamp(value, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value));
 }
 
-function setHeroVar(hero, name, value) {
-  hero.style.setProperty(name, value);
+function segment(progress, start, end) {
+  return clamp((progress - start) / (end - start));
+}
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
 }
 
 function initScrollHero() {
   const hero = document.querySelector('[data-scroll-hero]');
   if (!hero) return;
 
+  const stage = hero.querySelector('.hero-scroll-stage');
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let ticking = false;
+  const vars = {};
+  let current = 0;
+  let target = 0;
+  let rafId = null;
 
-  function setLandingState() {
-    hero.classList.remove('is-scroll-bound', 'is-hero-before', 'is-hero-after');
-    setHeroVar(hero, '--hero-card-opacity', '1');
-    setHeroVar(hero, '--hero-card-y', '0px');
-    setHeroVar(hero, '--hero-card-scale', '1');
-    setHeroVar(hero, '--hero-copy-opacity', '1');
-    setHeroVar(hero, '--hero-copy-y', '0px');
-    setHeroVar(hero, '--hero-command-opacity', '1');
-    setHeroVar(hero, '--hero-command-y', '0px');
-    setHeroVar(hero, '--hero-intro-opacity', '0.08');
-    setHeroVar(hero, '--hero-intro-y', '0px');
-    setHeroVar(hero, '--hero-intro-scale', '1');
-    setHeroVar(hero, '--hero-lead-opacity', '0');
-    setHeroVar(hero, '--hero-phone-opacity', '0');
-    setHeroVar(hero, '--hero-phone-y', '32px');
-    setHeroVar(hero, '--hero-phone-scale', '0.92');
-    setHeroVar(hero, '--hero-phone-rotate', '-10deg');
-    setHeroVar(hero, '--hero-cue-opacity', '0');
+  function setVar(name, value) {
+    if (vars[name] === value) return;
+    vars[name] = value;
+    hero.style.setProperty(name, value);
   }
 
-  function update() {
-    ticking = false;
+  function setLandingState() {
+    hero.classList.remove('is-scroll-bound');
+    setVar('--hero-card-opacity', '1');
+    setVar('--hero-card-y', '0px');
+    setVar('--hero-card-scale', '1');
+    setVar('--hero-copy-opacity', '1');
+    setVar('--hero-copy-y', '0px');
+    setVar('--hero-command-opacity', '1');
+    setVar('--hero-command-y', '0px');
+    setVar('--hero-intro-opacity', '0');
+    setVar('--hero-intro-y', '0px');
+    setVar('--hero-intro-scale', '1');
+    setVar('--hero-art-opacity', '0.16');
+    setVar('--hero-lead-opacity', '0');
+    setVar('--hero-phone-opacity', '0');
+    setVar('--hero-phone-y', '32px');
+    setVar('--hero-phone-scale', '0.92');
+    setVar('--hero-phone-rotate', '-10deg');
+    setVar('--hero-cue-opacity', '0');
+  }
 
+  function apply(progress) {
+    // Act 1 (0 – 0.34): full-bleed statement headline, then it lifts away.
+    const introOut = easeOutCubic(segment(progress, 0.12, 0.34));
+    // Act 2 (0.16 – 0.66): command-center card rises, leads route into the
+    // phone inbox docked on the right, then both clear the stage.
+    const system = easeOutCubic(segment(progress, 0.16, 0.5));
+    const leadIn = segment(progress, 0.24, 0.38);
+    const leadOut = segment(progress, 0.52, 0.64);
+    const leadPeak = leadIn * (1 - leadOut);
+    const phoneIn = easeOutCubic(segment(progress, 0.3, 0.46));
+    const phoneOut = segment(progress, 0.54, 0.66);
+    const phonePeak = phoneIn * (1 - phoneOut);
+    // Act 3 (0.5 – 0.84): headline, CTAs, and command panel lock in, then hold.
+    const copyIn = easeOutCubic(segment(progress, 0.5, 0.72));
+    const commandIn = easeOutCubic(segment(progress, 0.62, 0.84));
+
+    setVar('--hero-card-opacity', system.toFixed(3));
+    setVar('--hero-card-y', `${((1 - system) * 110).toFixed(1)}px`);
+    setVar('--hero-card-scale', (0.9 + system * 0.1).toFixed(4));
+    setVar('--hero-copy-opacity', copyIn.toFixed(3));
+    setVar('--hero-copy-y', `${((1 - copyIn) * 40).toFixed(1)}px`);
+    setVar('--hero-command-opacity', commandIn.toFixed(3));
+    setVar('--hero-command-y', `${((1 - commandIn) * 46).toFixed(1)}px`);
+    setVar('--hero-intro-opacity', (1 - introOut).toFixed(3));
+    setVar('--hero-intro-y', `${(introOut * -90).toFixed(1)}px`);
+    setVar('--hero-intro-scale', (1 + introOut * 0.12).toFixed(4));
+    setVar('--hero-art-opacity', (0.34 - introOut * 0.18).toFixed(3));
+    setVar('--hero-lead-opacity', leadPeak.toFixed(3));
+    setVar('--hero-phone-opacity', phonePeak.toFixed(3));
+    setVar('--hero-phone-y', `${((1 - phonePeak) * 68).toFixed(1)}px`);
+    setVar('--hero-phone-scale', (0.9 + phonePeak * 0.1).toFixed(4));
+    setVar('--hero-phone-rotate', `${(-12 + phonePeak * 12).toFixed(1)}deg`);
+    setVar('--hero-cue-opacity', (1 - segment(progress, 0, 0.1)).toFixed(3));
+  }
+
+  function readTarget() {
+    const stageHeight = stage ? stage.offsetHeight : window.innerHeight;
+    const scrollRange = Math.max(hero.offsetHeight - stageHeight, 1);
+    target = clamp(-hero.getBoundingClientRect().top / scrollRange);
+  }
+
+  function frame() {
+    // Damped follow so trackpad and wheel scrubbing both feel fluid.
+    current += (target - current) * 0.16;
+    if (Math.abs(target - current) < 0.001) {
+      current = target;
+      rafId = null;
+    } else {
+      rafId = window.requestAnimationFrame(frame);
+    }
+    apply(current);
+  }
+
+  function schedule() {
     if (motionQuery.matches) {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      rafId = null;
       setLandingState();
       return;
     }
-
     hero.classList.add('is-scroll-bound');
-
-    const rect = hero.getBoundingClientRect();
-    hero.classList.toggle('is-hero-before', rect.top > 0);
-    hero.classList.toggle('is-hero-after', rect.bottom <= window.innerHeight);
-    const scrollRange = Math.max(hero.offsetHeight - window.innerHeight, 1);
-    const progress = clamp(-rect.top / scrollRange);
-    const intro = clamp(1 - progress / 0.3);
-    const system = clamp((progress - 0.08) / 0.36);
-    const leadPeak = clamp(1 - Math.abs(progress - 0.42) / 0.34);
-    const landing = clamp((progress - 0.58) / 0.34);
-    const phonePeak = leadPeak * (1 - landing);
-
-    setHeroVar(hero, '--hero-card-opacity', (0.28 + system * 0.72).toFixed(3));
-    setHeroVar(hero, '--hero-card-y', `${Math.round((1 - system) * 76)}px`);
-    setHeroVar(hero, '--hero-card-scale', (0.88 + system * 0.12).toFixed(3));
-    setHeroVar(hero, '--hero-copy-opacity', landing.toFixed(3));
-    setHeroVar(hero, '--hero-copy-y', `${Math.round((1 - landing) * 28)}px`);
-    setHeroVar(hero, '--hero-command-opacity', landing.toFixed(3));
-    setHeroVar(hero, '--hero-command-y', `${Math.round((1 - landing) * 34)}px`);
-    setHeroVar(hero, '--hero-intro-opacity', Math.max(0.06, intro).toFixed(3));
-    setHeroVar(hero, '--hero-intro-y', `${Math.round(progress * -54)}px`);
-    setHeroVar(hero, '--hero-intro-scale', (1 + progress * 0.04).toFixed(3));
-    setHeroVar(hero, '--hero-lead-opacity', leadPeak.toFixed(3));
-    setHeroVar(hero, '--hero-phone-opacity', phonePeak.toFixed(3));
-    setHeroVar(hero, '--hero-phone-y', `${Math.round((1 - phonePeak) * 68 - landing * 18)}px`);
-    setHeroVar(hero, '--hero-phone-scale', (0.9 + phonePeak * 0.1).toFixed(3));
-    setHeroVar(hero, '--hero-phone-rotate', `${Math.round(-12 + phonePeak * 12)}deg`);
-    setHeroVar(hero, '--hero-cue-opacity', clamp(1 - progress / 0.18).toFixed(3));
+    readTarget();
+    if (!rafId) rafId = window.requestAnimationFrame(frame);
   }
 
-  function requestUpdate() {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(update);
-  }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  if (motionQuery.addEventListener) motionQuery.addEventListener('change', schedule);
+  else motionQuery.addListener(schedule);
 
-  window.addEventListener('scroll', requestUpdate, { passive: true });
-  window.addEventListener('resize', requestUpdate);
-  if (motionQuery.addEventListener) motionQuery.addEventListener('change', requestUpdate);
-  else motionQuery.addListener(requestUpdate);
-  update();
+  if (motionQuery.matches) {
+    setLandingState();
+  } else {
+    hero.classList.add('is-scroll-bound');
+    readTarget();
+    current = target;
+    apply(current);
+  }
 }
 
 initScrollHero();

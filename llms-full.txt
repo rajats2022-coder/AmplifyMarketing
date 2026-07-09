@@ -36,33 +36,33 @@ The site includes hub pages plus deeper pages for services, industries, pricing,
 
 Core service pages:
 
-- Meta ads for home service companies: /meta-ads-home-services.html
-- Free lead-flow audit: /lead-flow-audit.html
-- Facebook lead forms for home services: /facebook-lead-forms-home-services.html
-- Meta ad creative testing for home services: /meta-ad-creative-testing-home-services.html
-- Meta retargeting for home service leads: /meta-retargeting-home-services.html
+- Meta ads for home service companies: /meta-ads-home-services
+- Free lead-flow audit: /lead-flow-audit
+- Facebook lead forms for home services: /facebook-lead-forms-home-services
+- Meta ad creative testing for home services: /meta-ad-creative-testing-home-services
+- Meta retargeting for home service leads: /meta-retargeting-home-services
 
 Industry pages:
 
-- Landscaping and hardscaping Meta ads: /landscaping-hardscaping-marketing.html
-- Lawn care Meta ads: /lawn-care-marketing.html
-- Hardscaping Meta ads: /hardscaping-marketing.html
-- Exterior cleaning Meta ads: /exterior-cleaning-marketing.html
-- Pressure washing Meta ads: /pressure-washing-marketing.html
-- Roof washing and soft washing Meta ads: /roof-washing-soft-washing-marketing.html
-- Commercial exterior cleaning Meta ads: /commercial-exterior-cleaning-marketing.html
-- Junk removal Meta ads: /junk-removal-marketing.html
-- Estate cleanout Meta ads: /estate-cleanout-junk-removal-marketing.html
+- Landscaping and hardscaping Meta ads: /landscaping-hardscaping-marketing
+- Lawn care Meta ads: /lawn-care-marketing
+- Hardscaping Meta ads: /hardscaping-marketing
+- Exterior cleaning Meta ads: /exterior-cleaning-marketing
+- Pressure washing Meta ads: /pressure-washing-marketing
+- Roof washing and soft washing Meta ads: /roof-washing-soft-washing-marketing
+- Commercial exterior cleaning Meta ads: /commercial-exterior-cleaning-marketing
+- Junk removal Meta ads: /junk-removal-marketing
+- Estate cleanout Meta ads: /estate-cleanout-junk-removal-marketing
 
 Pricing and proof pages:
 
-- $750/month pricing: /pricing.html
-- Meta ads cost for home service companies: /meta-ads-cost-home-services.html
-- Home service ad budget calculator: /home-service-ad-budget-calculator.html
-- Results and scorecards: /results.html
-- Sample Meta ads scorecard: /sample-meta-ads-scorecard.html
-- Lead quality scorecard: /lead-quality-scorecard-home-services.html
-- First 60 days of Meta ads: /first-60-days-meta-ads.html
+- $750/month pricing: /pricing
+- Meta ads cost for home service companies: /meta-ads-cost-home-services
+- Home service ad budget calculator: /home-service-ad-budget-calculator
+- Results and scorecards: /results
+- Sample Meta ads scorecard: /sample-meta-ads-scorecard
+- Lead quality scorecard: /lead-quality-scorecard-home-services
+- First 60 days of Meta ads: /first-60-days-meta-ads
 
 Each page has distinct copy, internal links, and schema support.
 
