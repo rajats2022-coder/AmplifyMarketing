@@ -1,5 +1,7 @@
 {
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist && cp -R assets *.html *.txt *.xml robots.txt dist/"
+    "build": "rm -rf dist && mkdir -p dist && cp -R assets *.html *.txt *.xml robots.txt dist/",
+    "test": "node --check assets/script.js && node --check api/contact.js && node scripts/test-contact-handler.mjs && node scripts/verify-site.mjs",
+    "verify": "node scripts/verify-site.mjs"
   }
 }

@@ -1,0 +1,78 @@
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { basename, dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const failures = [];
+const note = (condition, message) => {
+  if (!condition) failures.push(message);
+};
+
+const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+const urls = [...sitemap.matchAll(/<loc>(https:\/\/amplifyoutreach\.com(?:\/[^<]*)?)<\/loc>/g)].map((match) => match[1]);
+note(urls.length > 0, 'sitemap.xml contains no Amplify URLs');
+note(new Set(urls).size === urls.length, 'sitemap.xml contains duplicate URLs');
+
+for (const url of urls) {
+  const pathname = new URL(url).pathname;
+  const file = pathname === '/' ? 'index.html' : `${pathname.slice(1)}.html`;
+  const filePath = join(root, file);
+  note(existsSync(filePath), `${url} has no local ${file}`);
+  if (!existsSync(filePath)) continue;
+
+  const html = readFileSync(filePath, 'utf8');
+  const titleCount = (html.match(/<title>[^<]+<\/title>/g) || []).length;
+  const h1Count = (html.match(/<h1(?:\s[^>]*)?>/g) || []).length;
+  const expectedCanonical = `https://amplifyoutreach.com${pathname}`;
+
+  note(titleCount === 1, `${file} must have one title`);
+  note(h1Count === 1, `${file} must have one H1`);
+  note(/<meta name="description" content="[^"]+"\s*\/>/.test(html), `${file} is missing a meta description`);
+  note(html.includes(`<link rel="canonical" href="${expectedCanonical}" />`), `${file} canonical does not match ${expectedCanonical}`);
+  note(html.includes('og:image" content="https://amplifyoutreach.com/assets/images/amplify-og-card.png"'), `${file} is missing the OG card`);
+  note(html.includes('twitter:image" content="https://amplifyoutreach.com/assets/images/amplify-og-card.png"'), `${file} is missing the Twitter card image`);
+  note(html.includes('href="privacy"') && html.includes('href="terms"'), `${file} is missing legal links`);
+
+  for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    try {
+      JSON.parse(match[1]);
+    } catch {
+      failures.push(`${file} contains invalid JSON-LD`);
+    }
+  }
+
+  for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+    const target = match[1];
+    if (/^(?:https?:|mailto:|tel:|#|data:|\/api\/)/.test(target)) continue;
+    const clean = target.split('#')[0].split('?')[0];
+    if (!clean || clean === '/') continue;
+    const candidate = clean.startsWith('assets/') || /\.[a-z0-9]+$/i.test(clean)
+      ? join(root, clean)
+      : join(root, `${clean}.html`);
+    note(existsSync(candidate), `${file} links to missing ${clean}`);
+  }
+}
+
+const publicSources = [
+  ...readdirSync(root).filter((file) => /\.(?:html|txt)$/.test(file)),
+  'assets/script.js',
+  'assets/styles.css',
+].map((file) => [file, readFileSync(join(root, file), 'utf8')]);
+
+for (const [file, content] of publicSources) {
+  note(!/\$750|"price"\s*:\s*"750"|managementFee\s*=\s*750/.test(content), `${file} still exposes the retired fixed price`);
+  note(!/Built for preview by S4 AI Agency|Lead-flow audit preview/.test(content), `${file} still contains preview branding`);
+}
+
+const contact = readFileSync(join(root, 'contact.html'), 'utf8');
+note(contact.includes('action="/api/contact" method="post"'), 'contact form is not wired to /api/contact');
+note(existsSync(join(root, 'api/contact.js')), 'contact API handler is missing');
+note(existsSync(join(root, 'assets/images/amplify-og-card.png')), 'OG card image is missing');
+
+if (failures.length) {
+  console.error(`Site verification failed (${failures.length}):`);
+  failures.forEach((failure) => console.error(`- ${failure}`));
+  process.exit(1);
+}
+
+console.log(`Site verification passed: ${urls.length} sitemap pages, metadata, JSON-LD, internal targets, legal links, form wiring, and price removal.`);

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Amplify Outreach</title>
+  <desc id="desc">Meta ads for home service leads, measured by booked jobs and revenue.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f1c2d" />
+      <stop offset="0.58" stop-color="#102d48" />
+      <stop offset="1" stop-color="#2b6493" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#f3c75b" stop-opacity="0.44" />
+      <stop offset="1" stop-color="#f3c75b" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#07111e" flood-opacity="0.5" />
+    </filter>
+    <clipPath id="logoClip"><circle cx="948" cy="302" r="118" /></clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="946" cy="302" r="278" fill="url(#glow)" />
+  <g fill="none" stroke="#f3c75b" opacity="0.42">
+    <circle cx="948" cy="302" r="178" stroke-width="2" />
+    <circle cx="948" cy="302" r="220" stroke-width="1" />
+    <path d="M770 454C880 413 962 409 1116 378" stroke-width="3" />
+  </g>
+  <g opacity="0.2" fill="#74bbd3">
+    <rect x="802" y="94" width="16" height="112" rx="8" />
+    <rect x="1095" y="206" width="16" height="188" rx="8" />
+    <rect x="1132" y="153" width="16" height="241" rx="8" />
+  </g>
+  <g filter="url(#shadow)">
+    <circle cx="948" cy="302" r="134" fill="#fffdf8" stroke="#f3c75b" stroke-width="8" />
+    <image href="amplify-outreach-logo.jpeg" x="824" y="178" width="248" height="248" preserveAspectRatio="xMidYMid slice" clip-path="url(#logoClip)" />
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#fffdf8">
+    <text x="84" y="126" font-size="26" font-weight="700" letter-spacing="4" fill="#f3c75b">AMPLIFY OUTREACH</text>
+    <text x="84" y="228" font-size="66" font-weight="800">Turn Meta spend</text>
+    <text x="84" y="304" font-size="66" font-weight="800">into booked jobs.</text>
+    <text x="84" y="372" font-size="29" font-weight="400" fill="#d8e4ef">Facebook and Instagram lead systems</text>
+    <text x="84" y="412" font-size="29" font-weight="400" fill="#d8e4ef">for home service companies.</text>
+    <rect x="84" y="474" width="470" height="62" rx="31" fill="#f3c75b" />
+    <text x="117" y="515" font-size="23" font-weight="800" fill="#102033">BOOKED JOBS · REVENUE · SIGNAL</text>
+  </g>
+</svg>

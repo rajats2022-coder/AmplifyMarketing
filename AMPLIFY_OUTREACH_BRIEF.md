@@ -19,10 +19,9 @@ Amplify Outreach is a month-to-month Meta ads partner for home service owners wh
 - Free lead-flow audit
 - The audit should identify the first campaign angle, lead-quality filters, break-even math, scorecard notes, and campaign tracking gaps
 
-## Base Package
-- $750 per month
-- Month to month
-- All-encompassing management fee
+## Engagement Model
+- Month-to-month management
+- Campaign scope and investment confirmed after the free lead-flow audit
 - As many campaigns as the business can responsibly run
 - Ad spend should remain separate and controlled by the client inside their ad account
 
@@ -50,14 +49,14 @@ Amplify Outreach is a month-to-month Meta ads partner for home service owners wh
 - `commercial-exterior-cleaning-marketing.html` - commercial exterior cleaning SEO page
 - `junk-removal-marketing.html` - industry SEO page
 - `estate-cleanout-junk-removal-marketing.html` - estate cleanout SEO page
-- `pricing.html` - $750 offer and fit-check page
+- `pricing.html` - engagement model and fit-check page
 - `meta-ads-cost-home-services.html` - cost breakdown page
 - `home-service-ad-budget-calculator.html` - budget calculator page
 - `results.html` - measurement philosophy, sample scorecard, and scale/cut logic
 - `sample-meta-ads-scorecard.html` - sample scorecard page
 - `lead-quality-scorecard-home-services.html` - lead quality definitions page
 - `first-60-days-meta-ads.html` - early campaign timeline page
-- `faq.html` - owner questions about pricing, ad spend, contracts, and tracking
+- `faq.html` - owner questions about campaign scope, ad spend, contracts, and tracking
 - `contact.html` - two-step free audit intake form
 - `llms.txt` and `llms-full.txt` - AI-readable site summaries
 
@@ -67,8 +66,9 @@ Amplify Outreach is a month-to-month Meta ads partner for home service owners wh
 - URL: `http://localhost:3004`
 
 ## Missing Before Launch
-- Final domain
+- Production-domain routing
 - Phone number
 - Business email
 - Legal business address, if the owner wants a local schema address
 - Form backend or CRM connection
+- Google Business Profile access
