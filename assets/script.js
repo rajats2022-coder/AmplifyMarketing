@@ -203,116 +203,397 @@ function clamp(value, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value));
 }
 
-function segment(progress, start, end) {
-  return clamp((progress - start) / (end - start));
-}
+function initMotionHero() {
+  const hero = document.querySelector('[data-motion-hero]');
+  const stage = hero?.querySelector('[data-motion-stage]');
+  if (!hero || !stage) return;
 
-function easeOutCubic(t) {
-  return 1 - Math.pow(1 - t, 3);
-}
-
-function initScrollHero() {
-  const hero = document.querySelector('[data-scroll-hero]');
-  if (!hero) return;
-
-  const stage = hero.querySelector('.emblem-scroll-stage');
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const vars = {};
-  let current = 0;
-  let target = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let targetX = 0;
+  let targetY = 0;
   let rafId = null;
+  let lockedStage = '';
+  let previewStage = '';
 
-  function setVar(name, value) {
-    if (vars[name] === value) return;
-    vars[name] = value;
-    hero.style.setProperty(name, value);
+  const motionNodes = [...stage.querySelectorAll('[data-motion-node]')];
+
+  function syncActiveStage() {
+    const activeStage = previewStage || lockedStage;
+    if (activeStage) stage.dataset.activeStage = activeStage;
+    else delete stage.dataset.activeStage;
+
+    motionNodes.forEach((node) => {
+      node.setAttribute('aria-pressed', String(node.dataset.motionNode === lockedStage));
+    });
   }
 
-  function setLandingState() {
-    hero.classList.add('is-static');
-    setVar('--emblem-y', '0px');
-    setVar('--emblem-rotate', '0deg');
-    setVar('--emblem-tilt', '0deg');
-    setVar('--emblem-scale', '1');
-    setVar('--orbit-rotate', '36deg');
-    setVar('--copy-y', '0px');
-    setVar('--copy-opacity', '1');
-    setVar('--chip-attract-opacity', '1');
-    setVar('--chip-qualify-opacity', '1');
-    setVar('--chip-book-opacity', '1');
-    setVar('--status-opacity', '1');
-    setVar('--progress-scale', '1');
-  }
+  function applyPointerPosition() {
+    currentX += (targetX - currentX) * 0.11;
+    currentY += (targetY - currentY) * 0.11;
+    stage.style.setProperty('--pointer-x', currentX.toFixed(3));
+    stage.style.setProperty('--pointer-y', currentY.toFixed(3));
+    stage.style.setProperty('--motion-rotate-x', `${(-currentY * 4.5).toFixed(2)}deg`);
+    stage.style.setProperty('--motion-rotate-y', `${(currentX * 5.5).toFixed(2)}deg`);
+    stage.style.setProperty('--motion-shift-x', `${(currentX * 10).toFixed(2)}px`);
+    stage.style.setProperty('--motion-shift-y', `${(currentY * 8).toFixed(2)}px`);
 
-  function apply(progress) {
-    const eased = easeOutCubic(progress);
-    const qualifyIn = easeOutCubic(segment(progress, 0.16, 0.46));
-    const bookIn = easeOutCubic(segment(progress, 0.46, 0.76));
-    const aligned = easeOutCubic(segment(progress, 0.72, 0.94));
-    const pulse = Math.sin(progress * Math.PI);
-
-    // One clear motion system: the emblem rises and turns while each stage
-    // locks into the orbit. Copy remains readable throughout the interaction.
-    setVar('--emblem-y', `${(-10 - eased * 38).toFixed(1)}px`);
-    setVar('--emblem-rotate', `${(-8 + eased * 24).toFixed(1)}deg`);
-    setVar('--emblem-tilt', `${(10 - eased * 16).toFixed(1)}deg`);
-    setVar('--emblem-scale', (1 + pulse * 0.055).toFixed(4));
-    setVar('--orbit-rotate', `${(eased * 210).toFixed(1)}deg`);
-    setVar('--copy-y', `${(-eased * 16).toFixed(1)}px`);
-    setVar('--copy-opacity', (1 - segment(progress, 0.86, 1) * 0.12).toFixed(3));
-    setVar('--chip-attract-opacity', '1');
-    setVar('--chip-qualify-opacity', qualifyIn.toFixed(3));
-    setVar('--chip-book-opacity', bookIn.toFixed(3));
-    setVar('--status-opacity', aligned.toFixed(3));
-    setVar('--progress-scale', progress.toFixed(4));
-  }
-
-  function readTarget() {
-    const stageHeight = stage ? stage.offsetHeight : window.innerHeight;
-    const scrollRange = Math.max(hero.offsetHeight - stageHeight, 1);
-    target = clamp(-hero.getBoundingClientRect().top / scrollRange);
-  }
-
-  function frame() {
-    // Damped follow so trackpad and wheel scrubbing both feel fluid.
-    current += (target - current) * 0.16;
-    if (Math.abs(target - current) < 0.001) {
-      current = target;
-      rafId = null;
+    if (Math.abs(targetX - currentX) > 0.002 || Math.abs(targetY - currentY) > 0.002) {
+      rafId = window.requestAnimationFrame(applyPointerPosition);
     } else {
-      rafId = window.requestAnimationFrame(frame);
+      currentX = targetX;
+      currentY = targetY;
+      stage.style.setProperty('--pointer-x', currentX.toFixed(3));
+      stage.style.setProperty('--pointer-y', currentY.toFixed(3));
+      stage.style.setProperty('--motion-rotate-x', `${(-currentY * 4.5).toFixed(2)}deg`);
+      stage.style.setProperty('--motion-rotate-y', `${(currentX * 5.5).toFixed(2)}deg`);
+      stage.style.setProperty('--motion-shift-x', `${(currentX * 10).toFixed(2)}px`);
+      stage.style.setProperty('--motion-shift-y', `${(currentY * 8).toFixed(2)}px`);
+      rafId = null;
     }
-    apply(current);
   }
 
-  function schedule() {
+  function schedulePointerPosition() {
+    if (!rafId) rafId = window.requestAnimationFrame(applyPointerPosition);
+  }
+
+  function handlePointerMove(event) {
+    if (motionQuery.matches) return;
+    const bounds = stage.getBoundingClientRect();
+    targetX = clamp(((event.clientX - bounds.left) / bounds.width) * 2 - 1, -1, 1);
+    targetY = clamp(((event.clientY - bounds.top) / bounds.height) * 2 - 1, -1, 1);
+    schedulePointerPosition();
+  }
+
+  function resetPointerPosition() {
+    targetX = 0;
+    targetY = 0;
+    schedulePointerPosition();
+  }
+
+  function handleMotionPreference() {
     if (motionQuery.matches) {
       if (rafId) window.cancelAnimationFrame(rafId);
       rafId = null;
-      setLandingState();
-      return;
+      currentX = 0;
+      currentY = 0;
+      targetX = 0;
+      targetY = 0;
+      stage.style.setProperty('--pointer-x', '0');
+      stage.style.setProperty('--pointer-y', '0');
+      stage.style.setProperty('--motion-rotate-x', '0deg');
+      stage.style.setProperty('--motion-rotate-y', '0deg');
+      stage.style.setProperty('--motion-shift-x', '0px');
+      stage.style.setProperty('--motion-shift-y', '0px');
     }
-    hero.classList.remove('is-static');
-    readTarget();
-    if (!rafId) rafId = window.requestAnimationFrame(frame);
   }
 
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
-  if (motionQuery.addEventListener) motionQuery.addEventListener('change', schedule);
-  else motionQuery.addListener(schedule);
-
-  if (motionQuery.matches) {
-    setLandingState();
-  } else {
-    hero.classList.remove('is-static');
-    readTarget();
-    current = target;
-    apply(current);
-  }
+  stage.addEventListener('pointermove', handlePointerMove, { passive: true });
+  stage.addEventListener('pointerleave', resetPointerPosition);
+  motionNodes.forEach((node) => {
+    const stageName = node.dataset.motionNode;
+    node.addEventListener('pointerenter', () => {
+      previewStage = stageName;
+      syncActiveStage();
+    });
+    node.addEventListener('pointerleave', () => {
+      previewStage = '';
+      syncActiveStage();
+    });
+    node.addEventListener('focus', () => {
+      previewStage = stageName;
+      syncActiveStage();
+    });
+    node.addEventListener('blur', () => {
+      previewStage = '';
+      syncActiveStage();
+    });
+    node.addEventListener('click', () => {
+      lockedStage = lockedStage === stageName ? '' : stageName;
+      previewStage = '';
+      syncActiveStage();
+    });
+  });
+  if (motionQuery.addEventListener) motionQuery.addEventListener('change', handleMotionPreference);
+  else motionQuery.addListener(handleMotionPreference);
 }
 
-initScrollHero();
+initMotionHero();
+
+function initLeadSignalField() {
+  const hero = document.querySelector('[data-motion-hero]');
+  const canvas = hero?.querySelector('[data-lead-signal-field]');
+  const stage = hero?.querySelector('[data-motion-stage]');
+  const context = canvas?.getContext('2d');
+  if (!hero || !canvas || !stage || !context) return;
+
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileQuery = window.matchMedia('(max-width: 760px)');
+  const palette = {
+    raw: [116, 187, 211],
+    qualified: [243, 199, 91],
+    booked: [71, 212, 150],
+    white: [255, 253, 248],
+  };
+  const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, inside: false };
+  const focus = { x: 0, y: 0, radius: 90 };
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let signals = [];
+  let fieldNodes = [];
+  let rafId = null;
+  let lastFrame = 0;
+  let isVisible = true;
+  let randomState = 0x4a3f29b1;
+
+  function random() {
+    randomState = (Math.imul(randomState, 1664525) + 1013904223) >>> 0;
+    return randomState / 4294967296;
+  }
+
+  function rgba(color, alpha) {
+    return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${alpha})`;
+  }
+
+  function cubicPoint(signal, progress) {
+    const inverse = 1 - progress;
+    const inverseSquared = inverse * inverse;
+    const progressSquared = progress * progress;
+    return {
+      x: inverseSquared * inverse * signal.startX
+        + 3 * inverseSquared * progress * signal.controlOneX
+        + 3 * inverse * progressSquared * signal.controlTwoX
+        + progressSquared * progress * signal.endX,
+      y: inverseSquared * inverse * signal.startY
+        + 3 * inverseSquared * progress * signal.controlOneY
+        + 3 * inverse * progressSquared * signal.controlTwoY
+        + progressSquared * progress * signal.endY,
+    };
+  }
+
+  function makeSignal(index) {
+    const edge = index % 4;
+    let startX;
+    let startY;
+    if (edge === 0) {
+      startX = -width * 0.05;
+      startY = height * (0.08 + random() * 0.82);
+    } else if (edge === 1) {
+      startX = width * (0.04 + random() * 0.88);
+      startY = -height * 0.05;
+    } else if (edge === 2) {
+      startX = width * (0.04 + random() * 0.88);
+      startY = height * 1.05;
+    } else {
+      startX = width * 1.05;
+      startY = height * (0.08 + random() * 0.82);
+    }
+
+    const lane = random() * 2 - 1;
+    const horizontalDistance = focus.x - startX;
+    const verticalDistance = focus.y - startY;
+    return {
+      startX,
+      startY,
+      controlOneX: startX + horizontalDistance * (0.24 + random() * 0.16),
+      controlOneY: startY + verticalDistance * 0.2 + lane * height * 0.22,
+      controlTwoX: focus.x - horizontalDistance * (0.09 + random() * 0.08),
+      controlTwoY: focus.y - verticalDistance * 0.11 - lane * height * 0.08,
+      endX: focus.x + (random() * 2 - 1) * focus.radius,
+      endY: focus.y + (random() * 2 - 1) * focus.radius,
+      phase: random(),
+      speed: 0.000045 + random() * 0.000035,
+      size: 1.1 + random() * 1.8,
+      becomesBooked: index % 5 === 0,
+    };
+  }
+
+  function rebuildScene() {
+    randomState = mobileQuery.matches ? 0x3c91ae73 : 0x4a3f29b1;
+    const heroBounds = hero.getBoundingClientRect();
+    const stageBounds = stage.getBoundingClientRect();
+    focus.x = stageBounds.left - heroBounds.left + stageBounds.width * 0.5;
+    focus.y = stageBounds.top - heroBounds.top + stageBounds.height * 0.5;
+    focus.radius = stageBounds.width * 0.14;
+
+    const signalCount = mobileQuery.matches ? 12 : 28;
+    const nodeCount = mobileQuery.matches ? 12 : 26;
+    signals = Array.from({ length: signalCount }, (_, index) => makeSignal(index));
+    fieldNodes = Array.from({ length: nodeCount }, () => ({
+      x: random() * width,
+      y: random() * height,
+      depth: 0.35 + random() * 0.9,
+      size: 0.6 + random() * 1.4,
+    }));
+  }
+
+  function resizeCanvas() {
+    const bounds = hero.getBoundingClientRect();
+    width = Math.max(Math.round(bounds.width), 1);
+    height = Math.max(Math.round(bounds.height), 1);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    pointer.x = pointer.targetX = width * 0.5;
+    pointer.y = pointer.targetY = height * 0.5;
+    rebuildScene();
+  }
+
+  function drawNetwork() {
+    const shiftX = pointer.inside ? (pointer.x / width - 0.5) * 10 : 0;
+    const shiftY = pointer.inside ? (pointer.y / height - 0.5) * 8 : 0;
+
+    fieldNodes.forEach((node, index) => {
+      const nodeX = node.x + shiftX * node.depth;
+      const nodeY = node.y + shiftY * node.depth;
+      for (let otherIndex = index + 1; otherIndex < fieldNodes.length; otherIndex += 1) {
+        const other = fieldNodes[otherIndex];
+        const otherX = other.x + shiftX * other.depth;
+        const otherY = other.y + shiftY * other.depth;
+        const distance = Math.hypot(nodeX - otherX, nodeY - otherY);
+        if (distance > 145) continue;
+        context.beginPath();
+        context.moveTo(nodeX, nodeY);
+        context.lineTo(otherX, otherY);
+        context.strokeStyle = rgba(palette.raw, (1 - distance / 145) * 0.045);
+        context.lineWidth = 0.6;
+        context.stroke();
+      }
+
+      context.beginPath();
+      context.arc(nodeX, nodeY, node.size, 0, Math.PI * 2);
+      context.fillStyle = rgba(index % 6 === 0 ? palette.qualified : palette.raw, 0.18 + node.depth * 0.08);
+      context.fill();
+    });
+  }
+
+  function drawPointerGlow() {
+    if (!pointer.inside) return;
+    const glow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 170);
+    glow.addColorStop(0, rgba(palette.raw, 0.075));
+    glow.addColorStop(0.45, rgba(palette.raw, 0.025));
+    glow.addColorStop(1, rgba(palette.raw, 0));
+    context.fillStyle = glow;
+    context.fillRect(pointer.x - 170, pointer.y - 170, 340, 340);
+  }
+
+  function drawSignal(signal, timestamp, activeStage) {
+    const progress = (signal.phase + timestamp * signal.speed) % 1;
+    const fadeIn = clamp(progress / 0.08);
+    const fadeOut = clamp((1 - progress) / 0.08);
+    let color = palette.raw;
+    if (progress > 0.58) color = palette.qualified;
+    if (progress > 0.86 && signal.becomesBooked) color = palette.booked;
+
+    const isActiveSegment = !activeStage
+      || (activeStage === 'attract' && progress < 0.58)
+      || (activeStage === 'qualify' && progress >= 0.5 && progress < 0.88)
+      || (activeStage === 'book' && progress >= 0.8);
+    const emphasis = isActiveSegment ? 1 : 0.26;
+    const alpha = Math.min(fadeIn, fadeOut) * emphasis;
+    const trailStart = Math.max(progress - 0.075, 0);
+
+    context.beginPath();
+    for (let step = 0; step <= 7; step += 1) {
+      const trailProgress = trailStart + (progress - trailStart) * (step / 7);
+      const point = cubicPoint(signal, trailProgress);
+      if (step === 0) context.moveTo(point.x, point.y);
+      else context.lineTo(point.x, point.y);
+    }
+    context.strokeStyle = rgba(color, alpha * 0.42);
+    context.lineWidth = signal.size * 0.72;
+    context.lineCap = 'round';
+    context.stroke();
+
+    const point = cubicPoint(signal, progress);
+    context.beginPath();
+    context.arc(point.x, point.y, signal.size * (isActiveSegment ? 1 : 0.75), 0, Math.PI * 2);
+    context.fillStyle = rgba(color, alpha * 0.9);
+    context.shadowBlur = isActiveSegment ? 12 : 5;
+    context.shadowColor = rgba(color, alpha * 0.85);
+    context.fill();
+    context.shadowBlur = 0;
+  }
+
+  function drawFrame(timestamp) {
+    rafId = null;
+    if (!isVisible || motionQuery.matches) return;
+
+    const frameInterval = mobileQuery.matches ? 1000 / 24 : 1000 / 30;
+    if (timestamp - lastFrame < frameInterval) {
+      rafId = window.requestAnimationFrame(drawFrame);
+      return;
+    }
+    lastFrame = timestamp;
+    pointer.x += (pointer.targetX - pointer.x) * 0.075;
+    pointer.y += (pointer.targetY - pointer.y) * 0.075;
+    context.clearRect(0, 0, width, height);
+    drawPointerGlow();
+    drawNetwork();
+    const activeStage = stage.dataset.activeStage || '';
+    signals.forEach((signal) => drawSignal(signal, timestamp, activeStage));
+    rafId = window.requestAnimationFrame(drawFrame);
+  }
+
+  function start() {
+    if (rafId || !isVisible || motionQuery.matches) return;
+    rafId = window.requestAnimationFrame(drawFrame);
+  }
+
+  function stop() {
+    if (rafId) window.cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
+  function handlePointerMove(event) {
+    const bounds = hero.getBoundingClientRect();
+    pointer.targetX = event.clientX - bounds.left;
+    pointer.targetY = event.clientY - bounds.top;
+    pointer.inside = true;
+  }
+
+  function handleMotionPreference() {
+    if (motionQuery.matches) {
+      stop();
+      context.clearRect(0, 0, width, height);
+    } else {
+      start();
+    }
+  }
+
+  hero.addEventListener('pointermove', handlePointerMove, { passive: true });
+  hero.addEventListener('pointerleave', () => {
+    pointer.inside = false;
+    pointer.targetX = width * 0.5;
+    pointer.targetY = height * 0.5;
+  });
+
+  const visibilityObserver = new IntersectionObserver(([entry]) => {
+    isVisible = entry.isIntersecting;
+    if (isVisible) start();
+    else stop();
+  }, { threshold: 0.01 });
+  visibilityObserver.observe(hero);
+
+  const resizeObserver = new ResizeObserver(() => {
+    resizeCanvas();
+    start();
+  });
+  resizeObserver.observe(hero);
+  window.addEventListener('resize', resizeCanvas);
+  if (motionQuery.addEventListener) motionQuery.addEventListener('change', handleMotionPreference);
+  else motionQuery.addListener(handleMotionPreference);
+
+  resizeCanvas();
+  start();
+}
+
+initLeadSignalField();
 
 function createChatbot() {
   if (document.querySelector('[data-amplify-chatbot]')) return;

@@ -70,8 +70,25 @@ note(existsSync(join(root, 'api/contact.js')), 'contact API handler is missing')
 note(existsSync(join(root, 'assets/images/amplify-og-card.png')), 'OG card image is missing');
 
 const homepage = readFileSync(join(root, 'index.html'), 'utf8');
-note(homepage.includes('class="hero floating-emblem-hero"'), 'homepage is missing the floating-emblem hero');
-note((homepage.match(/emblem-stage-(?:attract|qualify|book)/g) || []).length === 3, 'homepage lead-system stages are incomplete');
+const homepageScript = readFileSync(join(root, 'assets/script.js'), 'utf8');
+const motionHeroIndex = homepage.indexOf('class="hero motion-hero"');
+const aboutIndex = homepage.indexOf('id="about"');
+const proofIndex = homepage.indexOf('proof-strip-after-about');
+note(motionHeroIndex >= 0, 'homepage is missing the lead-signal motion hero');
+note(homepage.includes('data-motion-hero'), 'homepage motion hero hook is missing');
+note(homepage.includes('data-motion-stage'), 'homepage interactive motion stage is missing');
+note(homepage.includes('data-lead-signal-field'), 'homepage animated lead-signal background is missing');
+note(homepage.includes('motion-node-attract'), 'homepage motion system is missing the attract stage');
+note(homepage.includes('motion-node-qualify'), 'homepage motion system is missing the qualify stage');
+note(homepage.includes('motion-node-book'), 'homepage motion system is missing the book stage');
+note((homepage.match(/data-motion-node=/g) || []).length === 3, 'homepage should expose three interactive lead-stage controls');
+note(homepage.includes('assets/images/amplify-outreach-logo.jpeg'), 'homepage motion system is missing the branded AMP logo');
+note(homepageScript.includes('initMotionHero()'), 'homepage pointer-motion controller is missing');
+note(homepageScript.includes('initLeadSignalField()'), 'homepage lead-signal background controller is missing');
+note(motionHeroIndex < aboutIndex && aboutIndex < proofIndex, 'homepage should flow from the hero directly into About before the proof strip');
+note(!homepage.includes('data-scroll-hero'), 'homepage still contains the retired scroll-animation hook');
+note(!homepage.includes('data-scroll-story-video'), 'homepage still loads the retired scroll-story video');
+note(!homepageScript.includes('initScrollHero()'), 'homepage script still initializes the retired scroll animation');
 note(!homepage.includes('class="hero cinematic-hero"'), 'homepage still uses the retired cinematic hero');
 
 if (failures.length) {

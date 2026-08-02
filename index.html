@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/styles.css?v=20260801-motion3" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -81,96 +81,90 @@
   </header>
 
   <main id="main">
-    <section class="hero floating-emblem-hero" data-scroll-hero>
-      <div class="emblem-scroll-stage">
-        <span class="emblem-ambient emblem-ambient-gold" aria-hidden="true"></span>
-        <span class="emblem-ambient emblem-ambient-blue" aria-hidden="true"></span>
-        <div class="wrap emblem-hero-grid">
-          <div class="hero-copy emblem-hero-copy">
-            <p class="eyebrow"><i data-lucide="activity"></i> Meta ads for home service owners</p>
-            <h1>Turn Meta spend into booked jobs, not cheap leads.</h1>
-            <p class="lead">Amplify Outreach builds Facebook and Instagram lead systems for landscaping, exterior cleaning, and junk removal companies that want revenue they can see—not reports dressed up with vanity metrics.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="contact">
-                Get a free lead-flow audit
-                <span class="btn-icon"><i data-lucide="arrow-up-right"></i></span>
-              </a>
-              <a class="btn btn-secondary" href="pricing">
-                See how engagement works
-                <span class="btn-icon"><i data-lucide="workflow"></i></span>
-              </a>
-            </div>
-            <div class="hero-badges" aria-label="Offer highlights">
-              <span>Tailored scope</span>
-              <span>Month to month</span>
-              <span>Client-owned ad account</span>
-            </div>
-            <div class="emblem-scroll-note" aria-hidden="true">
-              <span class="emblem-scroll-line"><i></i></span>
-              <span>Scroll to align the lead system</span>
-            </div>
+    <section class="hero motion-hero" data-motion-hero>
+      <canvas class="lead-signal-field" data-lead-signal-field aria-hidden="true"></canvas>
+      <span class="motion-ambient motion-ambient-gold" aria-hidden="true"></span>
+      <span class="motion-ambient motion-ambient-blue" aria-hidden="true"></span>
+      <div class="wrap motion-hero-grid">
+        <div class="hero-copy motion-hero-copy">
+          <p class="eyebrow"><i data-lucide="activity"></i> Meta ads for home service owners</p>
+          <h1>Turn Meta spend into booked jobs, not cheap leads.</h1>
+          <p class="lead">Amplify Outreach builds Facebook and Instagram lead systems for landscaping, exterior cleaning, and junk removal companies that want revenue they can see—not reports dressed up with vanity metrics.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="contact">
+              Get a free lead-flow audit
+              <span class="btn-icon"><i data-lucide="arrow-up-right"></i></span>
+            </a>
+            <a class="btn btn-secondary" href="pricing">
+              See how engagement works
+              <span class="btn-icon"><i data-lucide="workflow"></i></span>
+            </a>
           </div>
+          <div class="hero-badges" aria-label="Offer highlights">
+            <span>Tailored scope</span>
+            <span>Month to month</span>
+            <span>Client-owned ad account</span>
+          </div>
+        </div>
 
-          <div class="emblem-scene" aria-hidden="true">
-            <span class="emblem-grid-plane"></span>
-            <span class="emblem-orbit emblem-orbit-outer"></span>
-            <span class="emblem-orbit emblem-orbit-middle"></span>
-            <span class="emblem-orbit emblem-orbit-inner"></span>
-            <span class="emblem-spark emblem-spark-one"></span>
-            <span class="emblem-spark emblem-spark-two"></span>
-            <span class="emblem-spark emblem-spark-three"></span>
+        <div class="motion-stage" data-motion-stage role="group" aria-label="Explore the Amplify Outreach lead system: attract, qualify, and book high-value home service jobs">
+          <div class="motion-stage-inner">
+            <span class="motion-grid-plane"></span>
+            <svg class="motion-routes" viewBox="0 0 640 640" focusable="false">
+              <defs>
+                <linearGradient id="motion-route-gradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#74bbd3" />
+                  <stop offset="0.52" stop-color="#f3c75b" />
+                  <stop offset="1" stop-color="#74bbd3" />
+                </linearGradient>
+              </defs>
+              <path class="motion-route motion-route-one" pathLength="1" d="M151 168 C214 188 242 231 283 274" />
+              <path class="motion-route motion-route-two" pathLength="1" d="M365 274 C410 231 448 201 510 181" />
+              <path class="motion-route motion-route-three" pathLength="1" d="M399 346 C450 370 474 407 494 467" />
+              <path class="motion-route motion-route-four" pathLength="1" d="M447 494 C367 541 264 535 192 469" />
+              <circle class="motion-route-pulse motion-route-pulse-one" r="5" cx="151" cy="168" />
+              <circle class="motion-route-pulse motion-route-pulse-two" r="5" cx="510" cy="181" />
+              <circle class="motion-route-pulse motion-route-pulse-three" r="5" cx="494" cy="467" />
+            </svg>
+            <span class="motion-ring motion-ring-outer"></span>
+            <span class="motion-ring motion-ring-mid"></span>
+            <span class="motion-ring motion-ring-inner"></span>
+            <span class="motion-radar-sweep"></span>
+            <span class="motion-radar-ping motion-radar-ping-one"></span>
+            <span class="motion-radar-ping motion-radar-ping-two"></span>
 
-            <div class="emblem-coin">
-              <span class="emblem-coin-glow"></span>
+            <div class="motion-core">
+              <span class="motion-core-halo"></span>
+              <span class="motion-core-orbit"></span>
               <img src="assets/images/amplify-outreach-logo.jpeg" alt="" />
             </div>
 
-            <div class="emblem-stage-chip emblem-stage-attract">
-              <span>01</span>
-              <div><strong>Attract</strong><small>High-value local jobs</small></div>
-            </div>
-            <div class="emblem-stage-chip emblem-stage-qualify">
-              <span>02</span>
-              <div><strong>Qualify</strong><small>Filter for real fit</small></div>
-            </div>
-            <div class="emblem-stage-chip emblem-stage-book">
-              <span>03</span>
-              <div><strong>Book</strong><small>Turn interest into estimates</small></div>
-            </div>
+            <button class="motion-node motion-node-attract" type="button" data-motion-node="attract" aria-label="Highlight the Attract stage: high-value local jobs" aria-pressed="false">
+              <span class="motion-node-number">01</span>
+              <span><strong>Attract</strong><small>High-value local jobs</small></span>
+            </button>
+            <button class="motion-node motion-node-qualify" type="button" data-motion-node="qualify" aria-label="Highlight the Qualify stage: filter for real fit" aria-pressed="false">
+              <span class="motion-node-number">02</span>
+              <span><strong>Qualify</strong><small>Filter for real fit</small></span>
+            </button>
+            <button class="motion-node motion-node-book" type="button" data-motion-node="book" aria-label="Highlight the Book stage: turn interest into estimates" aria-pressed="false">
+              <span class="motion-node-number">03</span>
+              <span><strong>Book</strong><small>Turn interest into estimates</small></span>
+            </button>
 
-            <div class="emblem-status">
-              <span class="emblem-status-dot"></span>
-              <span>Lead system aligned</span>
-            </div>
+            <span class="motion-particle motion-particle-one"></span>
+            <span class="motion-particle motion-particle-two"></span>
+            <span class="motion-particle motion-particle-three"></span>
+            <span class="motion-particle motion-particle-four"></span>
+            <div class="motion-status"><i></i><span>Lead system active</span><strong>LIVE</strong></div>
           </div>
         </div>
-        <div class="emblem-progress" aria-hidden="true"><span></span></div>
       </div>
-    </section>
 
-    <section class="proof-strip-section" aria-label="Amplify Outreach proof points">
-      <div class="wrap proof-strip reveal" data-delay="2">
-        <div>
-          <span>Scope</span>
-          <strong>Strategy first</strong>
-          <small>Management is scoped after the lead-flow audit.</small>
-        </div>
-        <div>
-          <span>Ownership</span>
-          <strong>Client owned</strong>
-          <small>The business keeps control of the ad account and budget.</small>
-        </div>
-        <div>
-          <span>Optimization</span>
-          <strong>Weekly signal</strong>
-          <small>Campaign decisions based on lead quality and booked work.</small>
-        </div>
-        <div>
-          <span>Scoreboard</span>
-          <strong>Revenue first</strong>
-          <small>Success is measured by work won, not cheap clicks.</small>
-        </div>
-      </div>
+      <a class="motion-scroll-cue" href="#about">
+        <span>Meet the founder</span>
+        <i data-lucide="arrow-down"></i>
+      </a>
     </section>
 
     <section class="section about-section" id="about">
@@ -199,6 +193,31 @@
             <a class="btn btn-primary" href="contact">Request a free audit <span class="btn-icon"><i data-lucide="arrow-up-right"></i></span></a>
             <a class="btn btn-secondary" href="https://www.instagram.com/p/DURUISoAeOi/" target="_blank" rel="noopener noreferrer">See Logan's story <span class="btn-icon"><i data-lucide="instagram"></i></span></a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-strip-section proof-strip-after-about" aria-label="Amplify Outreach proof points">
+      <div class="wrap proof-strip reveal" data-delay="2">
+        <div>
+          <span>Scope</span>
+          <strong>Strategy first</strong>
+          <small>Management is scoped after the lead-flow audit.</small>
+        </div>
+        <div>
+          <span>Ownership</span>
+          <strong>Client owned</strong>
+          <small>The business keeps control of the ad account and budget.</small>
+        </div>
+        <div>
+          <span>Optimization</span>
+          <strong>Weekly signal</strong>
+          <small>Campaign decisions based on lead quality and booked work.</small>
+        </div>
+        <div>
+          <span>Scoreboard</span>
+          <strong>Revenue first</strong>
+          <small>Success is measured by work won, not cheap clicks.</small>
         </div>
       </div>
     </section>
@@ -406,6 +425,6 @@
   </footer>
 
   <script defer src="assets/vendor/lucide.min.js"></script>
-  <script defer src="assets/script.js"></script>
+  <script defer src="assets/script.js?v=20260801-motion3"></script>
 </body>
 </html>
