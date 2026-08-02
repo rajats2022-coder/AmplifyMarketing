@@ -29,7 +29,7 @@ Research date: July 4, 2026
    Competitors use audits and plans to make the first conversion feel valuable. Amplify's audit should return a first campaign angle, lead-quality filters, break-even math, scorecard notes, and tracking issues.
 
 4. Show proof early, but stay honest.
-   Larger competitors use ratings, client logos, case-study numbers, ad spend managed, and revenue influenced. Amplify should not invent proof. Until real results exist, use process proof: client-owned ad accounts, weekly scorecards, sample reporting, no long contract, and clear $750/month pricing.
+   Larger competitors use ratings, client logos, case-study numbers, ad spend managed, and revenue influenced. Amplify should not invent proof. Until real results exist, use process proof: client-owned ad accounts, weekly scorecards, sample reporting, no long contract, and a consultative engagement model scoped after the audit.
 
 5. Make paid social feel operational.
    The strongest home-service agencies connect marketing to the real workflow: lead source, call handling, follow-up speed, booked estimates, close rate, and revenue. Amplify should show the path from Meta lead form to booked work.

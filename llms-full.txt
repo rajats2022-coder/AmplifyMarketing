@@ -4,9 +4,11 @@
 
 Amplify Outreach is a home-service Meta ads agency. It serves owners who want a repeatable lead generation system and who care about revenue outcomes more than vanity metrics.
 
+Official Instagram: https://www.instagram.com/amplifyoutreachmarketing/
+
 ## Offer
 
-The base package is $750 per month, month to month. This is the management fee for Meta campaign strategy, setup, testing, tracking, optimization, and reporting. Ad spend is separate and should stay in the client's ad account.
+Amplify provides month-to-month Meta campaign strategy, setup, testing, tracking, optimization, and reporting. Campaign scope and investment are confirmed after the free lead-flow audit. Ad spend is separate and should stay in the client's ad account.
 
 ## Ideal Customers
 
@@ -32,7 +34,7 @@ The audit deliverable should identify the first campaign angle, lead-quality fil
 
 ## SEO Pages
 
-The site includes hub pages plus deeper pages for services, industries, pricing, and results.
+The site includes hub pages plus deeper pages for services, industries, engagement, and results.
 
 Core service pages:
 
@@ -54,23 +56,26 @@ Industry pages:
 - Junk removal Meta ads: /junk-removal-marketing
 - Estate cleanout Meta ads: /estate-cleanout-junk-removal-marketing
 
-Pricing and proof pages:
+Engagement and proof pages:
 
-- $750/month pricing: /pricing
+- Working with Amplify: /pricing
 - Meta ads cost for home service companies: /meta-ads-cost-home-services
 - Home service ad budget calculator: /home-service-ad-budget-calculator
 - Results and scorecards: /results
 - Sample Meta ads scorecard: /sample-meta-ads-scorecard
 - Lead quality scorecard: /lead-quality-scorecard-home-services
 - First 60 days of Meta ads: /first-60-days-meta-ads
+- Privacy notice: /privacy
+- Website terms: /terms
 
 Each page has distinct copy, internal links, and schema support.
 
 ## Missing Launch Details
 
-- Final domain
+- Production-domain routing
 - Phone number
 - Business email
 - Legal address if needed for schema
 - Booking calendar or form backend
 - Verified testimonials or results
+- Verified Google Business Profile access
