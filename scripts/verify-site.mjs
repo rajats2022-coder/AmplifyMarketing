@@ -69,6 +69,11 @@ note(contact.includes('action="/api/contact" method="post"'), 'contact form is n
 note(existsSync(join(root, 'api/contact.js')), 'contact API handler is missing');
 note(existsSync(join(root, 'assets/images/amplify-og-card.png')), 'OG card image is missing');
 
+const homepage = readFileSync(join(root, 'index.html'), 'utf8');
+note(homepage.includes('class="hero floating-emblem-hero"'), 'homepage is missing the floating-emblem hero');
+note((homepage.match(/emblem-stage-(?:attract|qualify|book)/g) || []).length === 3, 'homepage lead-system stages are incomplete');
+note(!homepage.includes('class="hero cinematic-hero"'), 'homepage still uses the retired cinematic hero');
+
 if (failures.length) {
   console.error(`Site verification failed (${failures.length}):`);
   failures.forEach((failure) => console.error(`- ${failure}`));

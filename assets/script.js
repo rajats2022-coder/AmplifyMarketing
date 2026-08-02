@@ -215,7 +215,7 @@ function initScrollHero() {
   const hero = document.querySelector('[data-scroll-hero]');
   if (!hero) return;
 
-  const stage = hero.querySelector('.hero-scroll-stage');
+  const stage = hero.querySelector('.emblem-scroll-stage');
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const vars = {};
   let current = 0;
@@ -229,59 +229,42 @@ function initScrollHero() {
   }
 
   function setLandingState() {
-    hero.classList.remove('is-scroll-bound');
-    setVar('--hero-card-opacity', '1');
-    setVar('--hero-card-y', '0px');
-    setVar('--hero-card-scale', '1');
-    setVar('--hero-copy-opacity', '1');
-    setVar('--hero-copy-y', '0px');
-    setVar('--hero-command-opacity', '1');
-    setVar('--hero-command-y', '0px');
-    setVar('--hero-intro-opacity', '0');
-    setVar('--hero-intro-y', '0px');
-    setVar('--hero-intro-scale', '1');
-    setVar('--hero-art-opacity', '0.16');
-    setVar('--hero-lead-opacity', '0');
-    setVar('--hero-phone-opacity', '0');
-    setVar('--hero-phone-y', '32px');
-    setVar('--hero-phone-scale', '0.92');
-    setVar('--hero-phone-rotate', '-10deg');
-    setVar('--hero-cue-opacity', '0');
+    hero.classList.add('is-static');
+    setVar('--emblem-y', '0px');
+    setVar('--emblem-rotate', '0deg');
+    setVar('--emblem-tilt', '0deg');
+    setVar('--emblem-scale', '1');
+    setVar('--orbit-rotate', '36deg');
+    setVar('--copy-y', '0px');
+    setVar('--copy-opacity', '1');
+    setVar('--chip-attract-opacity', '1');
+    setVar('--chip-qualify-opacity', '1');
+    setVar('--chip-book-opacity', '1');
+    setVar('--status-opacity', '1');
+    setVar('--progress-scale', '1');
   }
 
   function apply(progress) {
-    // Act 1 (0 – 0.34): full-bleed statement headline, then it lifts away.
-    const introOut = easeOutCubic(segment(progress, 0.12, 0.34));
-    // Act 2 (0.16 – 0.66): command-center card rises, leads route into the
-    // phone inbox docked on the right, then both clear the stage.
-    const system = easeOutCubic(segment(progress, 0.16, 0.5));
-    const leadIn = segment(progress, 0.24, 0.38);
-    const leadOut = segment(progress, 0.52, 0.64);
-    const leadPeak = leadIn * (1 - leadOut);
-    const phoneIn = easeOutCubic(segment(progress, 0.3, 0.46));
-    const phoneOut = segment(progress, 0.54, 0.66);
-    const phonePeak = phoneIn * (1 - phoneOut);
-    // Act 3 (0.5 – 0.84): headline, CTAs, and command panel lock in, then hold.
-    const copyIn = easeOutCubic(segment(progress, 0.5, 0.72));
-    const commandIn = easeOutCubic(segment(progress, 0.62, 0.84));
+    const eased = easeOutCubic(progress);
+    const qualifyIn = easeOutCubic(segment(progress, 0.16, 0.46));
+    const bookIn = easeOutCubic(segment(progress, 0.46, 0.76));
+    const aligned = easeOutCubic(segment(progress, 0.72, 0.94));
+    const pulse = Math.sin(progress * Math.PI);
 
-    setVar('--hero-card-opacity', system.toFixed(3));
-    setVar('--hero-card-y', `${((1 - system) * 110).toFixed(1)}px`);
-    setVar('--hero-card-scale', (0.9 + system * 0.1).toFixed(4));
-    setVar('--hero-copy-opacity', copyIn.toFixed(3));
-    setVar('--hero-copy-y', `${((1 - copyIn) * 40).toFixed(1)}px`);
-    setVar('--hero-command-opacity', commandIn.toFixed(3));
-    setVar('--hero-command-y', `${((1 - commandIn) * 46).toFixed(1)}px`);
-    setVar('--hero-intro-opacity', (1 - introOut).toFixed(3));
-    setVar('--hero-intro-y', `${(introOut * -90).toFixed(1)}px`);
-    setVar('--hero-intro-scale', (1 + introOut * 0.12).toFixed(4));
-    setVar('--hero-art-opacity', (0.34 - introOut * 0.18).toFixed(3));
-    setVar('--hero-lead-opacity', leadPeak.toFixed(3));
-    setVar('--hero-phone-opacity', phonePeak.toFixed(3));
-    setVar('--hero-phone-y', `${((1 - phonePeak) * 68).toFixed(1)}px`);
-    setVar('--hero-phone-scale', (0.9 + phonePeak * 0.1).toFixed(4));
-    setVar('--hero-phone-rotate', `${(-12 + phonePeak * 12).toFixed(1)}deg`);
-    setVar('--hero-cue-opacity', (1 - segment(progress, 0, 0.1)).toFixed(3));
+    // One clear motion system: the emblem rises and turns while each stage
+    // locks into the orbit. Copy remains readable throughout the interaction.
+    setVar('--emblem-y', `${(-10 - eased * 38).toFixed(1)}px`);
+    setVar('--emblem-rotate', `${(-8 + eased * 24).toFixed(1)}deg`);
+    setVar('--emblem-tilt', `${(10 - eased * 16).toFixed(1)}deg`);
+    setVar('--emblem-scale', (1 + pulse * 0.055).toFixed(4));
+    setVar('--orbit-rotate', `${(eased * 210).toFixed(1)}deg`);
+    setVar('--copy-y', `${(-eased * 16).toFixed(1)}px`);
+    setVar('--copy-opacity', (1 - segment(progress, 0.86, 1) * 0.12).toFixed(3));
+    setVar('--chip-attract-opacity', '1');
+    setVar('--chip-qualify-opacity', qualifyIn.toFixed(3));
+    setVar('--chip-book-opacity', bookIn.toFixed(3));
+    setVar('--status-opacity', aligned.toFixed(3));
+    setVar('--progress-scale', progress.toFixed(4));
   }
 
   function readTarget() {
@@ -309,7 +292,7 @@ function initScrollHero() {
       setLandingState();
       return;
     }
-    hero.classList.add('is-scroll-bound');
+    hero.classList.remove('is-static');
     readTarget();
     if (!rafId) rafId = window.requestAnimationFrame(frame);
   }
@@ -322,7 +305,7 @@ function initScrollHero() {
   if (motionQuery.matches) {
     setLandingState();
   } else {
-    hero.classList.add('is-scroll-bound');
+    hero.classList.remove('is-static');
     readTarget();
     current = target;
     apply(current);
