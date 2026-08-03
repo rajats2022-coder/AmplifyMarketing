@@ -2,7 +2,7 @@
 
 ## Required launch configuration
 
-1. Create and verify an Amplify Outreach Formspree form, then set `AMPLIFY_FORMSPREE_FORM_ID` in the Vercel project for Production and Preview.
+1. The Amplify Outreach Formspree form ID is `mbdnnnyb`. Set `AMPLIFY_FORMSPREE_FORM_ID=mbdnnnyb` in the Vercel project for Production and Preview.
 2. Add `amplifyoutreach.com` and `www.amplifyoutreach.com` to the Vercel project. Replace the current legacy-host DNS records with the exact records Vercel provides.
 3. Add the final business email and phone number to the site once the client approves them.
 4. Run a real form submission from the preview deployment and confirm receipt in the intended inbox before promoting to production.

@@ -54,7 +54,11 @@ if (valid.statusCode !== 503) throw new Error('Unconfigured delivery should fail
 
 process.env.AMPLIFY_FORMSPREE_FORM_ID = 'testform';
 const originalFetch = globalThis.fetch;
-globalThis.fetch = async () => ({ ok: true, status: 200 });
+let forwardedRequest;
+globalThis.fetch = async (url, options) => {
+  forwardedRequest = { url, options };
+  return { ok: true, status: 200 };
+};
 const delivered = await run({
   method: 'POST',
   headers: { origin: 'https://amplifyoutreach.com', host: 'amplifyoutreach.com' },
@@ -72,5 +76,11 @@ const delivered = await run({
 globalThis.fetch = originalFetch;
 delete process.env.AMPLIFY_FORMSPREE_FORM_ID;
 if (delivered.statusCode !== 200 || delivered.payload?.ok !== true) throw new Error('Configured delivery should return 200');
+if (forwardedRequest?.url !== 'https://formspree.io/f/testform') throw new Error('Delivery should use the configured Formspree endpoint');
+if (forwardedRequest.options?.method !== 'POST') throw new Error('Delivery should POST to Formspree');
+const forwardedPayload = JSON.parse(forwardedRequest.options?.body ?? '{}');
+if (forwardedPayload.email !== 'test@example.com') throw new Error('Delivery should forward the email field');
+if (forwardedPayload.business !== 'Test Business') throw new Error('Delivery should forward the business field');
+if (forwardedPayload._subject !== 'New Amplify lead-flow audit request from Test Business') throw new Error('Delivery should include the Amplify lead subject');
 
-console.log('Contact handler tests passed: method, validation, origin, honeypot, fail-closed configuration, and delivery success.');
+console.log('Contact handler tests passed: method, validation, origin, honeypot, fail-closed configuration, and Formspree delivery payload.');
