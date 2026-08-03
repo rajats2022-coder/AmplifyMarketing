@@ -3258,6 +3258,12 @@ p {
   background: var(--ink);
 }
 
+.step-indicators span.is-complete {
+  color: #174d3a;
+  border-color: rgba(32, 104, 79, 0.25);
+  background: rgba(51, 140, 107, 0.12);
+}
+
 .form-step {
   display: none;
 }
@@ -3285,6 +3291,11 @@ p {
 .field label {
   font-weight: 800;
   font-size: 0.88rem;
+}
+
+.field-optional {
+  color: var(--muted);
+  font-weight: 600;
 }
 
 .field input,
@@ -3323,6 +3334,23 @@ p {
   margin-top: 0.85rem;
   color: var(--green);
   font-weight: 800;
+}
+
+.lead-calculator-step:focus {
+  outline: none;
+}
+
+.lead-calculator-step > h3 {
+  margin-bottom: 0.35rem;
+}
+
+.lead-capture-success {
+  margin: 0 0 1rem;
+}
+
+.form-shell .calculator-card {
+  padding: 1rem;
+  box-shadow: none;
 }
 
 .form-honeypot {

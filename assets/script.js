@@ -49,6 +49,7 @@ document.querySelectorAll('[data-faq-button]').forEach((button) => {
 document.querySelectorAll('[data-contact-form]').forEach((form) => {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    const leadFlow = form.closest('[data-lead-flow]');
     const message = form.querySelector('[data-form-message]');
     const submitButton = form.querySelector('[type="submit"]');
     const originalLabel = submitButton?.innerHTML;
@@ -57,7 +58,7 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
     form.dataset.submitting = 'true';
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = 'Sending audit...';
+      submitButton.textContent = 'Saving details...';
     }
     if (message) {
       message.textContent = '';
@@ -76,12 +77,14 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
 
       if (response.status === 429) throw new Error('rate-limit');
       if (!response.ok) throw new Error('delivery');
-      if (message) {
+      if (leadFlow) {
+        showFormStep(leadFlow, 2);
+        leadFlow.querySelector('[data-step-focus]')?.focus({ preventScroll: true });
+      } else if (message) {
         message.textContent = 'Thanks. Your audit request was sent to Amplify Outreach.';
         message.dataset.state = 'success';
       }
       form.reset();
-      if (form.matches('[data-step-form]')) showFormStep(form, 1);
     } catch (error) {
       if (message) {
         message.textContent = error instanceof Error && error.message === 'rate-limit'
@@ -100,32 +103,24 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
   });
 });
 
-function showFormStep(form, stepNumber) {
-  form.querySelectorAll('[data-form-step]').forEach((step) => {
+function showFormStep(flow, stepNumber) {
+  flow.querySelectorAll('[data-form-step]').forEach((step) => {
     const isActive = step.dataset.formStep === String(stepNumber);
     step.classList.toggle('is-active', isActive);
+    step.hidden = !isActive;
   });
 
-  form.querySelectorAll('[data-step-indicator]').forEach((indicator) => {
-    indicator.classList.toggle('is-active', indicator.dataset.stepIndicator === String(stepNumber));
+  flow.querySelectorAll('[data-step-indicator]').forEach((indicator) => {
+    const indicatorStep = Number(indicator.dataset.stepIndicator);
+    indicator.classList.toggle('is-active', indicatorStep === Number(stepNumber));
+    indicator.classList.toggle('is-complete', indicatorStep < Number(stepNumber));
+    if (indicatorStep === Number(stepNumber)) indicator.setAttribute('aria-current', 'step');
+    else indicator.removeAttribute('aria-current');
   });
 }
 
-document.querySelectorAll('[data-step-form]').forEach((form) => {
-  showFormStep(form, 1);
-
-  form.querySelectorAll('[data-next-step]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const activeStep = form.querySelector('[data-form-step].is-active');
-      const fields = [...activeStep.querySelectorAll('input, select, textarea')].filter((field) => !field.disabled);
-      const isValid = fields.every((field) => field.reportValidity());
-      if (isValid) showFormStep(form, button.dataset.nextStep);
-    });
-  });
-
-  form.querySelectorAll('[data-prev-step]').forEach((button) => {
-    button.addEventListener('click', () => showFormStep(form, button.dataset.prevStep));
-  });
+document.querySelectorAll('[data-lead-flow]').forEach((flow) => {
+  showFormStep(flow, 1);
 });
 
 document.querySelectorAll('[data-lead-calculator]').forEach((form) => {

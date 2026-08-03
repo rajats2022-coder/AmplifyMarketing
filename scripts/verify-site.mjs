@@ -66,6 +66,13 @@ for (const [file, content] of publicSources) {
 
 const contact = readFileSync(join(root, 'contact.html'), 'utf8');
 note(contact.includes('action="/api/contact" method="post"'), 'contact form is not wired to /api/contact');
+for (const field of ['name', 'email', 'phone']) {
+  note(new RegExp(`name="${field}"[^>]*required`).test(contact), `contact form should require ${field}`);
+}
+note(contact.includes('name="business"'), 'contact form is missing the optional business field');
+note(!/name="business"[^>]*required/.test(contact), 'business should be optional');
+note(!/name="(?:industry|area|best-service|job-value|message)"/.test(contact), 'contact capture still contains long-form audit fields');
+note(contact.includes('data-lead-flow') && contact.includes('data-lead-calculator'), 'contact flow should reveal the lead calculator after capture');
 note(existsSync(join(root, 'api/contact.js')), 'contact API handler is missing');
 note(existsSync(join(root, 'assets/images/amplify-og-card.png')), 'OG card image is missing');
 

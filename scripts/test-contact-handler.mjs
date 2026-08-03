@@ -26,6 +26,12 @@ if (method.statusCode !== 405) throw new Error('GET should return 405');
 const invalid = await run({ method: 'POST', body: {} });
 if (invalid.statusCode !== 400) throw new Error('Missing required fields should return 400');
 
+const missingPhone = await run({
+  method: 'POST',
+  body: { name: 'Test User', email: 'test@example.com' },
+});
+if (missingPhone.statusCode !== 400) throw new Error('Phone should be required');
+
 const honeypot = await run({ method: 'POST', body: { 'company-url': 'spam.example' } });
 if (honeypot.statusCode !== 200) throw new Error('Honeypot should silently accept');
 
@@ -41,13 +47,8 @@ const valid = await run({
   method: 'POST',
   body: {
     name: 'Test User',
-    business: 'Test Business',
     email: 'test@example.com',
-    industry: 'Lawn Care',
-    area: 'Raleigh, NC',
-    'best-service': 'Recurring service',
-    'job-value': '500',
-    message: 'Test request',
+    phone: '919-555-0100',
   },
 });
 if (valid.statusCode !== 503) throw new Error('Unconfigured delivery should fail closed with 503');
@@ -64,13 +65,8 @@ const delivered = await run({
   headers: { origin: 'https://amplifyoutreach.com', host: 'amplifyoutreach.com' },
   body: {
     name: 'Test User',
-    business: 'Test Business',
     email: 'test@example.com',
-    industry: 'Lawn Care',
-    area: 'Raleigh, NC',
-    'best-service': 'Recurring service',
-    'job-value': '500',
-    message: 'Test request',
+    phone: '919-555-0100',
   },
 });
 globalThis.fetch = originalFetch;
@@ -80,7 +76,8 @@ if (forwardedRequest?.url !== 'https://formspree.io/f/testform') throw new Error
 if (forwardedRequest.options?.method !== 'POST') throw new Error('Delivery should POST to Formspree');
 const forwardedPayload = JSON.parse(forwardedRequest.options?.body ?? '{}');
 if (forwardedPayload.email !== 'test@example.com') throw new Error('Delivery should forward the email field');
-if (forwardedPayload.business !== 'Test Business') throw new Error('Delivery should forward the business field');
-if (forwardedPayload._subject !== 'New Amplify lead-flow audit request from Test Business') throw new Error('Delivery should include the Amplify lead subject');
+if (forwardedPayload.phone !== '919-555-0100') throw new Error('Delivery should forward the phone field');
+if ('business' in forwardedPayload) throw new Error('Business should remain optional');
+if (forwardedPayload._subject !== 'New Amplify lead from Test User') throw new Error('Delivery should fall back to the lead name in the subject');
 
-console.log('Contact handler tests passed: method, validation, origin, honeypot, fail-closed configuration, and Formspree delivery payload.');
+console.log('Contact handler tests passed: simple required fields, optional business, validation, origin, honeypot, fail-closed configuration, and Formspree delivery payload.');
