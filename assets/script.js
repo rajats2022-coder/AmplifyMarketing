@@ -49,7 +49,6 @@ document.querySelectorAll('[data-faq-button]').forEach((button) => {
 document.querySelectorAll('[data-contact-form]').forEach((form) => {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const leadFlow = form.closest('[data-lead-flow]');
     const message = form.querySelector('[data-form-message]');
     const submitButton = form.querySelector('[type="submit"]');
     const originalLabel = submitButton?.innerHTML;
@@ -77,10 +76,7 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
 
       if (response.status === 429) throw new Error('rate-limit');
       if (!response.ok) throw new Error('delivery');
-      if (leadFlow) {
-        showFormStep(leadFlow, 2);
-        leadFlow.querySelector('[data-step-focus]')?.focus({ preventScroll: true });
-      } else if (message) {
+      if (message) {
         message.textContent = 'Thanks. Your audit request was sent to Amplify Outreach.';
         message.dataset.state = 'success';
       }
@@ -101,26 +97,6 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
       }
     }
   });
-});
-
-function showFormStep(flow, stepNumber) {
-  flow.querySelectorAll('[data-form-step]').forEach((step) => {
-    const isActive = step.dataset.formStep === String(stepNumber);
-    step.classList.toggle('is-active', isActive);
-    step.hidden = !isActive;
-  });
-
-  flow.querySelectorAll('[data-step-indicator]').forEach((indicator) => {
-    const indicatorStep = Number(indicator.dataset.stepIndicator);
-    indicator.classList.toggle('is-active', indicatorStep === Number(stepNumber));
-    indicator.classList.toggle('is-complete', indicatorStep < Number(stepNumber));
-    if (indicatorStep === Number(stepNumber)) indicator.setAttribute('aria-current', 'step');
-    else indicator.removeAttribute('aria-current');
-  });
-}
-
-document.querySelectorAll('[data-lead-flow]').forEach((flow) => {
-  showFormStep(flow, 1);
 });
 
 document.querySelectorAll('[data-lead-calculator]').forEach((form) => {

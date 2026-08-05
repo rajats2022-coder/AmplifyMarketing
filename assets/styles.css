@@ -3234,44 +3234,6 @@ p {
   gap: 0.85rem;
 }
 
-.step-indicators {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.step-indicators span {
-  min-height: 38px;
-  padding: 0.55rem 0.75rem;
-  border: 1px solid rgba(16, 32, 51, 0.12);
-  border-radius: 8px;
-  color: var(--muted);
-  background: rgba(246, 242, 233, 0.55);
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.74rem;
-  font-weight: 700;
-}
-
-.step-indicators span.is-active {
-  color: var(--paper-2);
-  background: var(--ink);
-}
-
-.step-indicators span.is-complete {
-  color: #174d3a;
-  border-color: rgba(32, 104, 79, 0.25);
-  background: rgba(51, 140, 107, 0.12);
-}
-
-.form-step {
-  display: none;
-}
-
-.form-step.is-active {
-  display: block;
-}
-
 .form-actions {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
@@ -3291,11 +3253,6 @@ p {
 .field label {
   font-weight: 800;
   font-size: 0.88rem;
-}
-
-.field-optional {
-  color: var(--muted);
-  font-weight: 600;
 }
 
 .field input,
@@ -3334,23 +3291,6 @@ p {
   margin-top: 0.85rem;
   color: var(--green);
   font-weight: 800;
-}
-
-.lead-calculator-step:focus {
-  outline: none;
-}
-
-.lead-calculator-step > h3 {
-  margin-bottom: 0.35rem;
-}
-
-.lead-capture-success {
-  margin: 0 0 1rem;
-}
-
-.form-shell .calculator-card {
-  padding: 1rem;
-  box-shadow: none;
 }
 
 .form-honeypot {
@@ -4433,7 +4373,6 @@ p {
   .about-principles,
   .form-grid,
   .form-actions,
-  .step-indicators,
   .footer-grid,
   .timeline-item{
     grid-template-columns: 1fr;

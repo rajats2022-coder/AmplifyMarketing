@@ -1,13 +1,11 @@
 const REQUIRED_FIELDS = [
   'name',
+  'business',
   'email',
   'phone',
 ];
 
-const ALLOWED_FIELDS = [
-  ...REQUIRED_FIELDS,
-  'business',
-];
+const ALLOWED_FIELDS = [...REQUIRED_FIELDS];
 
 function value(body, field) {
   const raw = body?.[field];
@@ -69,7 +67,7 @@ module.exports = async function contactHandler(request, response) {
   const payload = Object.fromEntries(
     ALLOWED_FIELDS.map((field) => [field, value(body, field)]).filter(([, fieldValue]) => fieldValue),
   );
-  payload._subject = `New Amplify lead from ${payload.business || payload.name}`;
+  payload._subject = `New Amplify lead from ${payload.business}`;
 
   try {
     const upstream = await fetch(`https://formspree.io/f/${formId}`, {

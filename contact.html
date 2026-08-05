@@ -34,59 +34,32 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><nav class="nav-shell" aria-label="Primary navigation"><a class="brand-link" href="/" aria-label="Amplify Outreach home"><img src="assets/images/amplify-outreach-logo.jpeg" alt="Amplify Outreach AMP logo" /><span class="brand-text"><span class="brand-name">Amplify Outreach</span><span class="brand-sub">Home service lead campaigns</span></span></a><button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button><div class="nav-links" data-nav-links><a href="services">Services</a><a href="industries">Industries</a><a href="pricing">Approach</a><a href="results">Results</a><a href="faq">FAQ</a><a class="nav-cta" href="contact">Free Audit</a></div></nav></header>
   <main id="main">
-    <section class="page-hero"><div class="wrap page-hero-grid reveal"><div><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>Contact</span></nav><p class="eyebrow"><i data-lucide="send"></i> Free audit</p><h1>Get a free lead-flow audit for your home service ads.</h1><p class="lead">Start with your name, email, and phone number. After your details are saved, use the lead calculator to check whether Meta ads have room to work.</p></div><div class="mini-panel"><strong>What happens next</strong><p class="note-muted">Run the lead math immediately, then Amplify can follow up with a first campaign direction and lead-quality recommendations.</p></div></div></section>
+    <section class="page-hero"><div class="wrap page-hero-grid reveal"><div><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>Contact</span></nav><p class="eyebrow"><i data-lucide="send"></i> Free audit</p><h1>Get a free lead-flow audit for your home service ads.</h1><p class="lead">Send your name, business name, email, and phone number. Amplify will follow up directly about your lead flow and first campaign direction.</p></div><div class="mini-panel"><strong>Simple first step</strong><p class="note-muted">No long questionnaire and no required lead math. Just the essential details Amplify needs to start the conversation.</p></div></div></section>
     <section class="section">
       <div class="wrap split-grid">
         <div class="reveal">
-          <p class="eyebrow"><i data-lucide="clipboard-list"></i> Quick lead check</p>
-          <h2>Start with the essentials. Run the numbers next.</h2>
-          <p class="lead gap-top">Send your basic contact information first. Once it is saved, the lead calculator opens so you can check the campaign math.</p>
+          <p class="eyebrow"><i data-lucide="clipboard-list"></i> Quick lead form</p>
+          <h2>Four fields. No long questionnaire.</h2>
+          <p class="lead gap-top">Share the essentials and Amplify can follow up with a focused conversation about lead quality, campaign fit, and the next test worth running.</p>
           <div class="stack gap-top">
-            <div class="card"><h3>Four quick fields</h3><p>Name, email, phone number, and an optional business name. No long questionnaire before you can begin.</p></div>
-            <div class="card card-blue"><h3>Lead math comes next</h3><p>Use your real job value, margin, close rate, target jobs, and ad spend to see whether a focused test has room to work.</p></div>
+            <div class="card"><h3>What to submit</h3><p>Your name, business name, email, and phone number. That is all the form requires.</p></div>
+            <div class="card card-blue"><h3>What Amplify reviews</h3><p>Your current lead flow, best opportunity, and whether a focused Meta ads test makes sense for the business.</p></div>
+            <div class="card"><h3>Want to run the numbers?</h3><p>The calculator is still available separately on the <a href="/#lead-math">homepage</a> whenever you want it.</p></div>
             <div class="card"><h3>Prefer Instagram?</h3><p>Message <a href="https://www.instagram.com/amplifyoutreachmarketing/" target="_blank" rel="noopener noreferrer">@amplifyoutreachmarketing</a> and mention the lead-flow audit.</p></div>
           </div>
         </div>
-        <div class="form-shell reveal" data-lead-flow>
-          <div class="step-indicators" aria-label="Lead check steps">
-            <span class="is-active" data-step-indicator="1">1. Contact</span>
-            <span data-step-indicator="2">2. Lead math</span>
+        <form class="form-shell reveal" action="/api/contact" method="post" data-contact-form>
+          <div class="form-honeypot" aria-hidden="true"><label for="company-url">Leave this field empty</label><input id="company-url" name="company-url" type="text" tabindex="-1" autocomplete="off" /></div>
+          <div class="form-grid">
+            <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
+            <div class="field"><label for="business">Business name</label><input id="business" name="business" type="text" autocomplete="organization" required /></div>
+            <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+            <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" required /></div>
           </div>
-          <div class="form-step is-active" data-form-step="1">
-            <form action="/api/contact" method="post" data-contact-form>
-              <div class="form-honeypot" aria-hidden="true"><label for="company-url">Leave this field empty</label><input id="company-url" name="company-url" type="text" tabindex="-1" autocomplete="off" /></div>
-              <div class="form-grid">
-                <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
-                <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
-                <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" required /></div>
-                <div class="field"><label for="business">Business name <span class="field-optional">(optional)</span></label><input id="business" name="business" type="text" autocomplete="organization" /></div>
-              </div>
-              <button class="btn btn-primary btn-block" type="submit">Continue to lead math <span class="btn-icon"><i data-lucide="arrow-right"></i></span></button>
-              <p class="form-note">Your information is used only to follow up about your lead-flow request.</p>
-              <div class="form-message" data-form-message aria-live="polite"></div>
-            </form>
-          </div>
-          <div class="form-step lead-calculator-step" data-form-step="2" data-step-focus tabindex="-1">
-            <p class="eyebrow"><i data-lucide="calculator"></i> Lead calculator</p>
-            <h3>Now put your real numbers to work.</h3>
-            <p class="form-message lead-capture-success" data-lead-success aria-live="polite">Your details are saved. Adjust the numbers below to check the opportunity.</p>
-            <form class="calculator-card" data-lead-calculator>
-              <div class="calc-grid">
-                <label>Average job value <input type="number" name="jobValue" min="1" value="1200" /></label>
-                <label>Gross margin % <input type="number" name="margin" min="1" max="100" value="45" /></label>
-                <label>Close rate % <input type="number" name="closeRate" min="1" max="100" value="35" /></label>
-                <label>Target jobs / month <input type="number" name="targetJobs" min="1" value="6" /></label>
-                <label>Monthly ad spend <input type="number" name="adSpend" min="0" value="1500" /></label>
-              </div>
-              <div class="calc-results" aria-live="polite">
-                <div><span>Ad-spend break-even jobs</span><strong data-calc-breakeven>3</strong></div>
-                <div><span>Qualified leads needed</span><strong data-calc-leads>18</strong></div>
-                <div><span>Target CPL ceiling</span><strong data-calc-cpl>$180</strong></div>
-              </div>
-              <p class="calc-status" data-calc-status>Room to test if lead quality stays tight.</p>
-            </form>
-          </div>
-        </div>
+          <button class="btn btn-primary btn-block" type="submit">Request free audit <span class="btn-icon"><i data-lucide="arrow-up-right"></i></span></button>
+          <p class="form-note">Your information is used only to follow up about your lead-flow request.</p>
+          <div class="form-message" data-form-message aria-live="polite"></div>
+        </form>
       </div>
     </section>
   </main>

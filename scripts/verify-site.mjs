@@ -66,13 +66,11 @@ for (const [file, content] of publicSources) {
 
 const contact = readFileSync(join(root, 'contact.html'), 'utf8');
 note(contact.includes('action="/api/contact" method="post"'), 'contact form is not wired to /api/contact');
-for (const field of ['name', 'email', 'phone']) {
+for (const field of ['name', 'business', 'email', 'phone']) {
   note(new RegExp(`name="${field}"[^>]*required`).test(contact), `contact form should require ${field}`);
 }
-note(contact.includes('name="business"'), 'contact form is missing the optional business field');
-note(!/name="business"[^>]*required/.test(contact), 'business should be optional');
 note(!/name="(?:industry|area|best-service|job-value|message)"/.test(contact), 'contact capture still contains long-form audit fields');
-note(contact.includes('data-lead-flow') && contact.includes('data-lead-calculator'), 'contact flow should reveal the lead calculator after capture');
+note(!contact.includes('data-lead-flow') && !contact.includes('data-lead-calculator'), 'contact form should not gate submission behind lead math');
 note(existsSync(join(root, 'api/contact.js')), 'contact API handler is missing');
 note(existsSync(join(root, 'assets/images/amplify-og-card.png')), 'OG card image is missing');
 
@@ -85,6 +83,7 @@ note(motionHeroIndex >= 0, 'homepage is missing the lead-signal motion hero');
 note(homepage.includes('data-motion-hero'), 'homepage motion hero hook is missing');
 note(homepage.includes('data-motion-stage'), 'homepage interactive motion stage is missing');
 note(homepage.includes('data-lead-signal-field'), 'homepage animated lead-signal background is missing');
+note(homepage.includes('id="lead-math"') && homepage.includes('data-lead-calculator'), 'homepage lead calculator is missing');
 note(homepage.includes('motion-node-attract'), 'homepage motion system is missing the attract stage');
 note(homepage.includes('motion-node-qualify'), 'homepage motion system is missing the qualify stage');
 note(homepage.includes('motion-node-book'), 'homepage motion system is missing the book stage');

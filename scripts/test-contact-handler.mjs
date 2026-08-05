@@ -28,9 +28,15 @@ if (invalid.statusCode !== 400) throw new Error('Missing required fields should 
 
 const missingPhone = await run({
   method: 'POST',
-  body: { name: 'Test User', email: 'test@example.com' },
+  body: { name: 'Test User', business: 'Test Business', email: 'test@example.com' },
 });
 if (missingPhone.statusCode !== 400) throw new Error('Phone should be required');
+
+const missingBusiness = await run({
+  method: 'POST',
+  body: { name: 'Test User', email: 'test@example.com', phone: '919-555-0100' },
+});
+if (missingBusiness.statusCode !== 400) throw new Error('Business should be required');
 
 const honeypot = await run({ method: 'POST', body: { 'company-url': 'spam.example' } });
 if (honeypot.statusCode !== 200) throw new Error('Honeypot should silently accept');
@@ -47,6 +53,7 @@ const valid = await run({
   method: 'POST',
   body: {
     name: 'Test User',
+    business: 'Test Business',
     email: 'test@example.com',
     phone: '919-555-0100',
   },
@@ -65,6 +72,7 @@ const delivered = await run({
   headers: { origin: 'https://amplifyoutreach.com', host: 'amplifyoutreach.com' },
   body: {
     name: 'Test User',
+    business: 'Test Business',
     email: 'test@example.com',
     phone: '919-555-0100',
   },
@@ -77,7 +85,7 @@ if (forwardedRequest.options?.method !== 'POST') throw new Error('Delivery shoul
 const forwardedPayload = JSON.parse(forwardedRequest.options?.body ?? '{}');
 if (forwardedPayload.email !== 'test@example.com') throw new Error('Delivery should forward the email field');
 if (forwardedPayload.phone !== '919-555-0100') throw new Error('Delivery should forward the phone field');
-if ('business' in forwardedPayload) throw new Error('Business should remain optional');
-if (forwardedPayload._subject !== 'New Amplify lead from Test User') throw new Error('Delivery should fall back to the lead name in the subject');
+if (forwardedPayload.business !== 'Test Business') throw new Error('Delivery should forward the business field');
+if (forwardedPayload._subject !== 'New Amplify lead from Test Business') throw new Error('Delivery should identify the business in the subject');
 
-console.log('Contact handler tests passed: simple required fields, optional business, validation, origin, honeypot, fail-closed configuration, and Formspree delivery payload.');
+console.log('Contact handler tests passed: four required lead fields, validation, origin, honeypot, fail-closed configuration, and Formspree delivery payload.');
